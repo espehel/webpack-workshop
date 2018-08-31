@@ -45,7 +45,11 @@ Her definerer man en rules property som tar en liste med objekter hvor hvert obj
 Her forteller vi altså webpack at hver gang den kommer over en path som viser seg å være en '.txt' så skal man sende denne gjennom 'raw-loader' slik at den kan transformeres før den legges til bundelen. I de neste seksjonene skal vi sette opp  
 
 ### Babel
-Laste ned babel. Hva er babel. Eksempel på noe som ikke fungerer i IE10(??) og som vi får til å fungere ved å kjøre koden gjennom babel. 
+En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (funksjoner etc. blir byttet ut med annen kode som kjører i et brede spekter av nettlesere. Lag en fil iNeedBabel.js som ser slik ut:
+```
+Dette blir en kodesnutt
+```
+Hva er babel. Eksempel på noe som ikke fungerer i IE10(??) og som vi får til å fungere ved å kjøre koden gjennom babel. 
 ### Less, css
 Lage en LESS fil og få brukt CSSen når den er importert i html'en vår.
 ### Typescript
