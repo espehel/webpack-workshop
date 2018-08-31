@@ -18,4 +18,8 @@
 
 ## react + hot reloading
 
+## Environment builds
+
+## Code splitting
+
 ## oppgradere til 4
