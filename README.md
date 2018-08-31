@@ -1,25 +1,25 @@
 # webpack-workshop
 
 ## Introduksjon
+Her skriver vi litt om hva de skal gjøre. Hvorfor vi bruker webpack 3, tydeliggjør prosessen med mye config. 
+## Basic setup
+Installere Node, Npm, webpack, lage index.html index.js. Importere index.js i index.html og få satt opp ett bygg.
+### Dev-server
 
-## basic setup
-### fra mange filer til 1
-### dev-server
+## Loaders
+### Babel
+### Less, css
+### Typescript
+### Html loader
 
-## loaders
-### babel
-### less, css
-### typescript
-### html loader
+## Plugins
+### Html plugin
+### Uglify
 
-## plugins
-### html plugin
-### uglify
-
-## react + hot reloading
+## React + hot reloading
 
 ## Environment builds
 
 ## Code splitting
 
-## oppgradere til 4
+## Oppgradere til 4
