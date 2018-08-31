@@ -21,12 +21,16 @@ Hva er plugins i forhold til Loaders?
 ### Html plugin
 ### ?????
 ## Production Builds
+Forskjellen på dev builds og production builds?
 ### Uglify 
 
 ## React + hot reloading
+Trekk inn babel for react. Få en react component til å vises på skjermen. Få satt opp hot reloading for reactappen.
 
 ## Environment builds
 
 ## Code splitting
+Ikke laste mer enn nødvendig. Splitte opp applikasjonen vår i forskjellige deler som kan lastes etterhvert som det er nødvendig. 
 
 ## Oppgradere til 4
+Parcel gjør mye av det vi nå har satt opp automatisk og det gjør også webpack med versjon 4. La oss se på en oppgradering og finne ut av hvor mye konfigurasjon som faktisk forsvinner! 
