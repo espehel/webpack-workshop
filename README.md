@@ -79,7 +79,7 @@ En ting vi kan bruk loaders til er å laste CSS filer inn i javascript. For å f
 Lag en .css fil og importer denne i javascripten din. Få brukt den til noe. TRENGER MER SPESIFIKASJON HER.
 
 ### Babel
-En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. Legg til en regel som ser slik ut:
+En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. HA MED EN LINK FOR NPM INSTALL HER! Legg til en regel som ser slik ut:
 ```
 module: {
   rules: [
@@ -107,22 +107,49 @@ FINN PÅ NOE VI TRENGER BABEL TIL FOR Å VERIFISERE.
 Hva er babel. Eksempel på noe som ikke fungerer i IE10(??) og som vi får til å fungere ved å kjøre koden gjennom babel. 
 
 ### Typescript
-Ingen skriver vel utypet javascript den dag i dag? Lage en ny ts fil som importeres i JS'en vår eller motsatt og få dette til å fungere.
+I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Vi trenger selvfølgelig en ts loader: `npm install --save-dev ts-loader` og kan deretter legge til ` { test: /\.ts$/, use: 'ts-loader' }` under listen i `module.rules`.
+
+### GJØR SELV:
+Lag en typescript fil som eksporterer en funksjon, importer den i javascript filen du bruker som inngangspunkt og kall funksjonen fra jvaascript. 
+
 ### Html loader
 Les litt opp på dette og sett oopp en HTML loader....
 
 ## Plugins
-Hva er plugins i forhold til Loaders?
-### Html plugin
+Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. F.eks bundle-optimaliseringer, ressurshåndtering og miljøvariabeler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
+For å bruke plugins må de importeres inn i webpack configen via require og brukes i `plugins` slik:
+```
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack = require('webpack'); //to access built-in plugins
+
+module.exports = {
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
+```
+I dette eksempelet har man installert `html-webpack-plugin` som vil generere en html fil for applikasjonen vår hvor all den bundla javascripten er inkludert. 
+
+HA ET EKSEMPEL TIL PÅ EN PLGUIN SOM ER NYTTIG
+
 ### ?????
-## Production Builds
-Forskjellen på dev builds og production builds?
-### Uglify 
+## Developmentbygg og produksjonsbygg
+Webpack støtter også forskjellige byggsituasjoner avhengig av om det er et bygg som skal brukes under utvikling eller som skal havne i den endelige produksjonsbundelen. Hva slags bygg situasjon man er i fører til at forskjellige plugins er aktive og at den endelige bundelen ser forskjellig ut. Man kan variere byggmodus som et CLI argument `webpack --mode=production` eller ved å sette i i config filen: 
+```
+module.exports = {
+  mode: 'production'
+};
+```
+SKRIV LITT OM HVA SLAGS PLUGINS SOM KJØRER I HVER MODUS
 
 ## React + hot reloading
+Ettersom react faggruppen er her må vi selvsagt 
 Trekk inn babel for react. Få en react component til å vises på skjermen. Få satt opp hot reloading for reactappen.
-
-## Environment builds
 
 ## Code splitting
 Ikke laste mer enn nødvendig. Splitte opp applikasjonen vår i forskjellige deler som kan lastes etterhvert som det er nødvendig. 
