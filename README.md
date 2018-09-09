@@ -1,15 +1,15 @@
 # webpack-workshop
 
 ## Introduksjon
-Her skriver vi litt om hva de skal gjøre. Hvorfor vi bruker webpack 3, tydeliggjør prosessen med mye config. 
+I denne workshopen skal vi fokusere på webpack som utgangspunkt for å utforske hva som faktisk skjer når man bygger en frontend. Det er ofte mange forskjellige prosesser koden går gjennom og webpack lar oss utforske disse gradvis ved å sette opp vår egendefinerte konfigurasjon. Med webpack 4 og Parcel er det mulig å få mye av det vi setter opp manuelt i denne workshopen gratis, men i reelle kundesituasjoner er det veldig vanlig at man alikevel må frem med noe manuell konfigurasjon for å få ting til å fungere i kunden sitt miljø.
 
-### dependency
-Litt om hvordan webpack prosesserer applikasjonen og lager en avhengighetsgraf. Den mapper alle filer som prosjektet trenger og bygger det til en bundle.
+KANSKJE ET AVSNITT TIL HER?
 
 ## Oppgave 1
 
 ### Basic setup
-Installere Node, Npm, webpack, lage index.html index.js. Importere index.js i index.html og få satt opp ett bygg.
+Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`. Gå inn i webpack-workshop mappen og kjør `npm install`. I mappen din burde du nå ha HVORDAN DET SER UT
+
 ### Entry og Output
 Når webpack skal bygge en bundle starter den med å se på én fil og basert på denne filen bygger man en avhengighetsgraf. Denne graf brukes til å finne ut av hvilke andre moduler og biblioteker man er avhengig av. I webpack 4 er default pathen `./src/index.js`, men det er flere måter man kan konfigurere dette på avhengig av hva man er ute etter. Dersom man kun ønsker et annet entry point kan man skrive:
 ```
