@@ -109,6 +109,14 @@ Under `use` definerer vi litt mer enn vi er vant til. `use.loader` spesifiserer 
 FINN PÅ NOE VI TRENGER BABEL TIL FOR Å VERIFISERE.
 Hva er babel. Eksempel på noe som ikke fungerer i IE10(??) og som vi får til å fungere ved å kjøre koden gjennom babel. 
 
+TODO(for oss): Lag et npm script som kjører denne pakken: https://www.npmjs.com/package/es-check (kan sette opp .rc fil som peker til spesifikk fil og versjon)
+
+Kommandoen `npm run escheck` sjekker om outputen fra vår webpack pipeline er gyldig es5 kode. Om vi kjører denne kommandoen nå, ser vi at den feiler. (TENKER AT VI ALLEREDE HAR LITT DIV KODE SOM TRENGER POLYFILL OG TRANSPILERING?)
+Legg til loader for babel med de rette polyfillene slik at bundlen vår blir gyldig es5.
+Bekreft at bundlen er gyldig ved å kjøre kommandoen `npm run escheck`.
+(VED Å BEGRENSE INNHOLDET I EKSEMPLET OVER HER TIL BARE MINIMUM, OG HELLER VISE TIL BABEL SINE SIDER, SÅ KAN DETTE VÆRE EN OPPGAVE HVOR DE MÅ TENKE LITT SELV FOR Å FINNE RETT CONFIG OG POLYFILLS? OGSÅ EN LITEN NØTT MED `transform-runtime` greia)
+
+
 ### Typescript
 I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Vi trenger selvfølgelig en ts loader: `npm install --save-dev ts-loader` og kan deretter legge til ` { test: /\.ts$/, use: 'ts-loader' }` under listen i `module.rules`.
 
