@@ -146,7 +146,19 @@ module.exports = {
 ```
 I dette eksempelet har man installert `html-webpack-plugin` som vil generere en html fil for applikasjonen vår hvor all den bundla javascripten er inkludert. 
 
-HA ET EKSEMPEL TIL PÅ EN PLGUIN SOM ER NYTTIG
+En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
+Legg til pluginen på denne måten:
+```
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+}
+```
+KANSKJE VI KAN LEGGE TIL NOEN PAKKER SOM TAR STOR PLASS? LODASH F:EKS?
+
 
 ### ?????
 ## Developmentbygg og produksjonsbygg
