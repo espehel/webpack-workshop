@@ -93,7 +93,7 @@ module: {
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env'],
-          plugins: [require('@babel/plugin-proposal-object-rest-spread')]
+          plugins: [require('@babel/plugin-proposal-class-properties')]
         }
       }
     }
@@ -101,7 +101,7 @@ module: {
 }
 ```
 Hva skjer her? Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer, mens use har litt flere finurligheter og vi har en ny ting som heter `exclude`. Exclude er rimelig enkel, vi spesifiserer mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig on ineffektivt å kjøre babel transpilering på filene i node_modules.
-Under `use` definerer vi litt mer enn vi er vant til. `use.loader` spesifiserer hvilken loader vi skal bruke, mens `user.options` LAR OSS GJØRE HVA?
+Under `use` definerer vi litt mer enn vi er vant til. `use.loader` spesifiserer hvilken loader vi skal bruke, mens `use.options` lar oss confige babel sin oppførsel med et _options_ objekt. I eksempelet over setter vi _@babel/preset-env_ som en _preset_. Dette tillater oss å jobbe med den siste versjonen av ECMAScript. Den dekker dog ikke eksperimentelle features, som for eksempel _class-properties_. For at babel skal klare å transpilere de, må vi legge den til i listen med plugins.
 
  
 
