@@ -81,6 +81,8 @@ En ting vi kan bruk loaders til er å laste CSS filer inn i javascript. For å f
 ### Gjør selv
 Lag en .css fil og importer denne i javascripten din. Få brukt den til noe. TRENGER MER SPESIFIKASJON HER.
 
+//ALTERNATIVT- kunne vi hatt en ferdig css fil, som de da manuelt må importere inn et sted i koden for å se at styling blir lagt til. Jeg forestiller meg selv at det ikke ligger så mye nytte i at de skal skrive litt random css selv. Men om de faktisk må importere den demonstrer vi at webpack trenger å vite at det er en dependency på et vis.
+
 ### Babel
 En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. HA MED EN LINK FOR NPM INSTALL HER! Legg til en regel som ser slik ut:
 ```
