@@ -164,13 +164,51 @@ KANSKJE VI KAN LEGGE TIL NOEN PAKKER SOM TAR STOR PLASS? LODASH F:EKS?
 
 ### ?????
 ## Developmentbygg og produksjonsbygg
-Webpack støtter også forskjellige byggsituasjoner avhengig av om det er et bygg som skal brukes under utvikling eller som skal havne i den endelige produksjonsbundelen. Hva slags bygg situasjon man er i fører til at forskjellige plugins er aktive og at den endelige bundelen ser forskjellig ut. Man kan variere byggmodus som et CLI argument `webpack --mode=production` eller ved å sette i i config filen: 
+Webpack støtter også forskjellige byggsituasjoner avhengig av om det er et bygg som skal brukes under utvikling eller som skal havne i den endelige produksjonsbundelen. Vi kan velge i mellom _production_, _development_ eller _none_. Hva slags bygg situasjon man er i fører til at forskjellige plugins er aktive og at den endelige bundelen ser forskjellig ut. Man kan variere byggmodus som et CLI argument `webpack --mode=production` eller ved å sette i i config filen: 
 ```
 module.exports = {
   mode: 'production'
 };
 ```
-SKRIV LITT OM HVA SLAGS PLUGINS SOM KJØRER I HVER MODUS
+
+Ved å sette en _mode_ blir følgende config unødvendig:
+
+### Mode: development
+```diff
+module.exports = {
++ mode: 'development'
+- devtool: 'eval',
+- plugins: [
+-   new webpack.NamedModulesPlugin(),
+-   new webpack.NamedChunksPlugin(),
+-   new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("development") }),
+- ]
+}
+```
+
+### Mode: production
+```diff
+module.exports = {
++  mode: 'production',
+-  plugins: [
+-    new UglifyJsPlugin(/* ... */),
+-    new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
+-    new webpack.optimize.ModuleConcatenationPlugin(),
+-    new webpack.NoEmitOnErrorsPlugin()
+-  ]
+}
+```
+
+
+### Mode: none
+```diff
+module.exports = {
++  mode: 'none',
+-  plugins: [
+-  ]
+}
+```
+DENNE VISNINGEN SÅ BRA UT I BABEL DOCS, MEN VET IKKE OM VI BURDE GJØRE DET ANNERLEDES HER?
 
 ## React + hot reloading
 Ettersom react faggruppen er her må vi selvsagt 
