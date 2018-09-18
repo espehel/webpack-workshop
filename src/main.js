@@ -10,3 +10,4 @@ app.appendChild(greetingHeader);
 
 greetingContent.appendChild(document.createTextNode('Håper du har en fin' + getTimeOfDay())); // TODO: Fjern import og funksjonskall, erstatt med 'dag'.
 app.appendChild(greetingContent);
+

@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "workshop",
   "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --config webpack.config.js --open"
   },
   "devDependencies": {
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
