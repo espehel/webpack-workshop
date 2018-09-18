@@ -9,9 +9,12 @@ Derfor starter vi i denne workshoppen med det aller mest grunnleggende, hvordan 
 
 ### Basic setup
 Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`.
-Prosjektet har kun 3 enkle filer `main.html`, `main.js` og `utils.js`. Åpne filen main.html direkte i en browser. 
-Da ser vi en velkomstmelding generert fra `main.js`. Vi prøver også å inkludere tid på dagen i velkomstmeldingen, ved å importere hjelpefunksjonen `getTimeOfDay()` fra `utils.js`.
-Dette feiler siden browseren ikke forstår avhengigheten vi nå har skapt mellom `main.js` og `utils.js`. Dette løser vi ved å få webpack til å ta våre to filer, og bygge de til én fil.
+Prosjektet har kun 3 enkle filer `src/main.html`, `src/main.js` og `src/utils.js`. Åpne filen main.html direkte i en browser. 
+Da ser vi en velkomstmelding generert fra `src/main.js`.
+
+Vi ønsker også å inkludere tid på dagen i velkomstmeldingen.
+Dette vil vi løse ved å importere hjelpefunksjonen `getTimeOfDay()` fra `src/utils.js`.
+Dette kommer desverre til å feile siden browseren ikke forstår avhengigheten vi prøver å skape mellom `main.js` og `utils.js`. Dette kan vi løse ved å få webpack til å lage en bundle av de to javascript filene vi trenger.
 
 Det første vi gjøre er å hente webpack fra NPM. Vi henter også webpack-cli, slik at vi kan bygge koden vår fra kommandolinja.
 Kjør `npm i -d webpack webpack-cli`. 
@@ -49,8 +52,10 @@ Det er litt kjipt å bare sjekke at ting fungerer ved at det konstrueres en bund
 Installer webpack-dev-server: `npm install webpack-dev-server --save-dev`. For at det skal være lettere å starte serveren kan det nok en gang være lurt å definere et npm script
 som kjører kommandoen: `webpack-dev-server --config webpack.config.js`. Hvis vi kjører dette scriptet slik prosjektet vårt er definert nå vil vi serve og se mappestrukturen til prosjektet vårt.
 Dette skyldes at dev-serveren trenger litt hjelp til å finne ut av hvor den skal laste bundelen vår fra og hvor den statiske html filen vår skal serves fra.
-`publicPath` definerer hvor bundelen skal serves fra og `contentBase` definerer hvor vi skal hente statisk content fra. Sett opp dev-serveren slik at den får med seg endringer
-både i javascripten og htmlen vår.
+`publicPath` definerer hvor bundelen skal serves fra og `contentBase` definerer hvor vi skal hente statisk content fra.
+
+#### Oppgave
+Sett opp dev-serveren slik at den får med seg endringer både i javascripten og htmlen vår.
 
 ### Oppgave 2
 ## Loaders
