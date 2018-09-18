@@ -1,3 +1,4 @@
-export function printGreeting(name) {
-    return console.log("Hello " + name);
+export function getTimeOfDay() {
+    const time = new Date();
+    return time.getUTCHours();
 }
