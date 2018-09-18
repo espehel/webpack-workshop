@@ -1,0 +1,11 @@
+{
+  "name": "webpack-workshop",
+  "version": "1.0.0",
+  "description": "workshop",
+  "scripts": {
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
