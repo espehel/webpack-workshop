@@ -8,7 +8,10 @@ Derfor starter vi i denne workshoppen med det aller mest grunnleggende, hvordan 
 ## Oppgave 1
 
 ### Basic setup
-Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`. Gå inn i webpack-workshop mappen og kjør `npm install`. I mappen din burde du nå ha HVORDAN DET SER UT
+Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`.
+Prosjektet har kun 3 enkle filer `main.html`, `main.js` og `utils.js`. Åpne filen main.html direkte i en browser. 
+Da ser vi en velkomstmelding generert fra `main.js`. Vi prøver også å inkludere tid på dagen i velkomstmeldingen, ved å importere hjelpefunksjonen `getTimeOfDay()` fra `utils.js`.
+Dette feiler siden browseren ikke forstår avhengigheten vi nå har skapt mellom `main.js` og `utils.js`. Dette løser vi ved å få webpack til å ta våre to filer, og bygge de til én fil.
 
 ### Entry og Output
 Når webpack skal bygge en bundle starter den med å se på én fil og basert på denne filen bygger man en avhengighetsgraf. Denne graf brukes til å finne ut av hvilke andre moduler og biblioteker man er avhengig av. I webpack 4 er default pathen `./src/index.js`, men det er flere måter man kan konfigurere dette på avhengig av hva man er ute etter. Dersom man kun ønsker et annet entry point kan man skrive:
