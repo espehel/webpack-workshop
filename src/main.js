@@ -9,3 +9,4 @@ app.appendChild(greetingHeader);
 import { getTimeOfDay } from './utilities.js';
 greetingContent.appendChild(document.createTextNode('Håper du har en fin ' + getTimeOfDay()));
 app.appendChild(greetingContent);
+
