@@ -8,10 +8,18 @@ Derfor starter vi i denne workshoppen med det aller mest grunnleggende, hvordan 
 ## Oppgave 1
 
 ### Basic setup
-Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`. Gå inn i webpack-workshop mappen og kjør `npm install`. I mappen din burde du nå ha HVORDAN DET SER UT
+Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`.
+Prosjektet har kun 3 enkle filer `main.html`, `main.js` og `utils.js`. Åpne filen main.html direkte i en browser. 
+Da ser vi en velkomstmelding generert fra `main.js`. Vi prøver også å inkludere tid på dagen i velkomstmeldingen, ved å importere hjelpefunksjonen `getTimeOfDay()` fra `utils.js`.
+Dette feiler siden browseren ikke forstår avhengigheten vi nå har skapt mellom `main.js` og `utils.js`. Dette løser vi ved å få webpack til å ta våre to filer, og bygge de til én fil.
+
+Det første vi gjøre er å hente webpack fra NPM. Vi henter også webpack-cli, slik at vi kan bygge koden vår fra kommandolinja.
+Kjør `npm i -d webpack webpack-cli`. 
+For å bygge filene bruker vi et npm script, som starter webpack og gir den en config. 
+Legg inn følgende under `script` i `package.json`: `"build": "webpack --config webpack.config.js"`. Opprett filen `webpack.config.js`. I neste avsnitt forklarer vi hvordan vi setter opp denne filen, slik at vi endelig kan vise velkomstmeldingen vår.
 
 ### Entry og Output
-Når webpack skal bygge en bundle starter den med å se på én fil og basert på denne filen bygger man en avhengighetsgraf. Denne graf brukes til å finne ut av hvilke andre moduler og biblioteker man er avhengig av. I webpack 4 er default pathen `./src/index.js`, men det er flere måter man kan konfigurere dette på avhengig av hva man er ute etter. Dersom man kun ønsker et annet entry point kan man skrive:
+Når webpack skal bygge en bundle starter den med å se på én fil og basert på denne filen bygger man en avhengighetsgraf. Denne grafen brukes til å finne ut av hvilke andre moduler og biblioteker man er avhengig av. I webpack 4 er default pathen `./src/index.js`, men det er flere måter man kan konfigurere dette på avhengig av hva man er ute etter. Dersom man kun ønsker et annet entry point kan man skrive:
 ```
 module.exports = {
   entry: './path/to/my/entry/file.js'
@@ -31,9 +39,9 @@ module.exports = {
 ```
 Her definerer `output.path` hvor vi ønsker at bundelen skal legges og `output.filename` definerer navnet.
 
-### Gjør selv
-Lag en webpack config som bruker default verdiene til og konstruer en minimal bundle fil.
-Flytt filene til egenbestemte lokasjoner og fiks bygget slik at det fortsatt fungerer og det generes en bundle fil der vi ønsker.
+#### Oppgave
+Lag en webpack config som går utifra `main.js` og lager en bundle med alle avhengigheter denne filen har. Endre på `main.html` til å peke på bundle'en som webpack har bygd for oss.
+Dersom vi nå åpne main.html i nettleseren vil vi se en flott velkomstmelding, som også inkluderer tid på dagen.
 
 
 ### Dev-server
