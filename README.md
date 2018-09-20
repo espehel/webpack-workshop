@@ -223,9 +223,24 @@ Dersom man har fler entry point som beskrevet over er det fler muligheter for å
 
 
 #### Oppgave:
-Opprett en html og en tilhørende .js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
+Opprett en html og en tilhørende js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
 
-Prøv en enkel kodesplitting og sjekk at du får fler bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (eks. dersom man klikker på en knapp
+Prøv en enkel kodesplitting og sjekk at du får fler bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (eks. dersom man klikker på en knapp)
+
+### Dynamiske importer
+
+```
+module.exports = {
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-first-webpack.bundle.js',
+    chunkFilename: 'annetBundleNavn.bundle.js',
+  }
+};
+```
 
 ## Oppgradere til 4
 Parcel gjør mye av det vi nå har satt opp automatisk og det gjør også webpack med versjon 4. La oss se på en oppgradering og finne ut av hvor mye konfigurasjon som faktisk forsvinner! 
+
+## Er du ferdig?
+Ta en titt på Parcel og deres Get started guide: https://parceljs.org
