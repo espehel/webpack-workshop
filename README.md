@@ -112,40 +112,28 @@ Etter å ha lagt til _css-loader_ og _style-loader_ i webpack configen, lag en .
 Ved å inspisere siden, ser vi at css du har skrevet nå ligger i `<head>`.
 
 ### Babel
-En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. HA MED EN LINK FOR NPM INSTALL HER! Legg til en regel som ser slik ut:
+En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. Installer de følgende babel pakkene før du fortsetter:
+`npm install @babel/core @babel/preset-env babel-loader --save-dev`. Babel core er hobedbiblioteket til babel, preset-env skal vi bruke til å konfigurere opp hva vi vil at babel skal gjøre og loaderen trenger vi for å integrere med webpack. Når disse pakkene er installert kan vi oppdatere webpack configen vår til å inkludere vår nye loader slik:
 ```
 module: {
   rules: [
     {
       test: /\.js$/,
       exclude: /(node_modules)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-          plugins: [require('@babel/plugin-proposal-class-properties')]
-        }
-      }
+      use: 'babel-loader'
     }
   ]
 }
 ```
-Hva skjer her? Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer, mens use har litt flere finurligheter og vi har en ny ting som heter `exclude`. Exclude er rimelig enkel, vi spesifiserer mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig on ineffektivt å kjøre babel transpilering på filene i node_modules.
-Under `use` definerer vi litt mer enn vi er vant til. `use.loader` spesifiserer hvilken loader vi skal bruke, mens `use.options` lar oss confige babel sin oppførsel med et _options_ objekt. I eksempelet over setter vi _@babel/preset-env_ som en _preset_. Dette tillater oss å jobbe med den siste versjonen av ECMAScript. Den dekker dog ikke eksperimentelle features, som for eksempel _class-properties_. For at babel skal klare å transpilere de, må vi legge den til i listen med plugins.
-
- 
+Hva skjer her? Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer use er fortsatt loaderen vår og `exclude` lar oss spesifisere mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig on ineffektivt å kjøre babel transpilering på filene i node_modules. Babel konfigureres vanligvis via en .babelrc fil og en av pakkene ovenfor (preset env) skal vi bruke i configen her. Preset env kompilerer koden vår som er ES2015+ kompatibel ned til es5 kompatibel kode ved å på hvilke babel plugins og polyfills som trengs avhengig av browser eller miljø. Den enkleste måte å bruke preset env på er det følgende i .babelrc filen vår:
+```
+{
+  "presets": ["@babel/preset-env"]
+}
+```
 
 ### Gjør selv
-FINN PÅ NOE VI TRENGER BABEL TIL FOR Å VERIFISERE.
-Hva er babel. Eksempel på noe som ikke fungerer i IE10(??) og som vi får til å fungere ved å kjøre koden gjennom babel. 
-
-TODO(for oss): Lag et npm script som kjører denne pakken: https://www.npmjs.com/package/es-check (kan sette opp .rc fil som peker til spesifikk fil og versjon)
-
-Kommandoen `npm run escheck` sjekker om outputen fra vår webpack pipeline er gyldig es5 kode. Om vi kjører denne kommandoen nå, ser vi at den feiler. (TENKER AT VI ALLEREDE HAR LITT DIV KODE SOM TRENGER POLYFILL OG TRANSPILERING?)
-Legg til loader for babel med de rette polyfillene slik at bundlen vår blir gyldig es5.
-Bekreft at bundlen er gyldig ved å kjøre kommandoen `npm run escheck`.
-(VED Å BEGRENSE INNHOLDET I EKSEMPLET OVER HER TIL BARE MINIMUM, OG HELLER VISE TIL BABEL SINE SIDER, SÅ KAN DETTE VÆRE EN OPPGAVE HVOR DE MÅ TENKE LITT SELV FOR Å FINNE RETT CONFIG OG POLYFILLS? OGSÅ EN LITEN NØTT MED `transform-runtime` greia)
-
+Sett opp og sjekk at babel faktisk fungerer. For å gjøre dette kan vi bruke et verktøy som heter es-check som kan installeres ved å kjøre `npm install es-check --save-dev`. Lag et npm script som peker programmet på output filen i bundelen din, f.eks: `es-check es5 ./dist/my-first-webpack.bundle.js`. Dersom du bruker babel loaderen når du bygger bundelen burde den passe es sjekken, mens dersom du ikke bruker den burde det kastes en feil.
 
 ### Typescript
 I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Man må selvfølgelig installere typescript med `npm install typescript` og deretter trenger vi en ts loader: `npm install --save-dev ts-loader`. Det vil også kreves en tsconfig.json som for øyeblikket kan være helt tom.
