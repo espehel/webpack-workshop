@@ -5,9 +5,7 @@ I denne workshopen skal vi fokusere på webpack som utgangspunkt for å utforske
 
 Derfor starter vi i denne workshoppen med det aller mest grunnleggende, hvordan webpack bygger en _bundle_ basert på avhengighetene til en angitt fil. Videre vil vi se på ytterligere konfigurasjonsmuligheter, som hvordan vi kan dra nytte av Babel, less, og typescript, ved hjelp av _Loaders_ og _Plugins_. Vi kommer til å utforske forskjellen på produksjonsbygg og bygg best egnet for våre interne og lokale utviklingsmiljøer. Til slutt vil vi se på litt snacks som gjør hverdagen vår som utvikler litt mer behagelig.
 
-## Oppgave 1
-
-### Basic setup
+## Basic setup
 Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`.
 Prosjektet har kun 3 enkle filer `src/main.html`, `src/main.js` og `src/utils.js`. Åpne filen main.html direkte i en browser. 
 Da ser vi en velkomstmelding generert fra `src/main.js`.
@@ -57,7 +55,24 @@ Dette skyldes at dev-serveren trenger litt hjelp til å finne ut av hvor den ska
 #### Oppgave
 Sett opp dev-serveren slik at den får med seg endringer både i javascripten og htmlen vår.
 
-### Oppgave 2
+### Developmentbygg og produksjonsbygg
+Webpack gir oss gratis optimalisering basert på om et bygg skal brukes under utvikling av devserveren, eller om det skal havne i den endelige produksjonsbundelen. Et developmentbygg fokuserer på rask byggehastighet, mens et produksjonsbygg har som mål å lage en liten bundle.
+
+Vi styrer dette ved å sette `mode` til enten _production_, _development_ eller _none_ i config filen.
+```
+module.exports = {
+  mode: 'production'
+};
+```
+Man kan også variere byggmodus som et CLI argument `webpack --mode=production`.
+
+#### Oppgave
+Gjør slik at devserver bruker development, mens bundlen vi bygger bruker production.
+
+### devtool
+Det er en stor fordel å kunne debugge koden vår, etter at den har blitt deployet. TODO MORE HERE
+
+
 ## Loaders
 Out of the box skjønner webpack bare javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
 Loaders består av to hoveddeler som definerer hvordan de fungerer:
@@ -185,55 +200,6 @@ module.exports = {
 }
 ```
 KANSKJE VI KAN LEGGE TIL NOEN PAKKER SOM TAR STOR PLASS? LODASH F:EKS?
-
-
-### ?????
-## Developmentbygg og produksjonsbygg
-Webpack støtter også forskjellige byggsituasjoner avhengig av om det er et bygg som skal brukes under utvikling eller som skal havne i den endelige produksjonsbundelen. Vi kan velge i mellom _production_, _development_ eller _none_. Hva slags bygg situasjon man er i fører til at forskjellige plugins er aktive og at den endelige bundelen ser forskjellig ut. Man kan variere byggmodus som et CLI argument `webpack --mode=production` eller ved å sette i i config filen: 
-```
-module.exports = {
-  mode: 'production'
-};
-```
-
-Ved å sette en _mode_ blir følgende config unødvendig:
-
-### Mode: development
-```diff
-module.exports = {
-+ mode: 'development'
-- devtool: 'eval',
-- plugins: [
--   new webpack.NamedModulesPlugin(),
--   new webpack.NamedChunksPlugin(),
--   new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("development") }),
-- ]
-}
-```
-
-### Mode: production
-```diff
-module.exports = {
-+  mode: 'production',
--  plugins: [
--    new UglifyJsPlugin(/* ... */),
--    new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
--    new webpack.optimize.ModuleConcatenationPlugin(),
--    new webpack.NoEmitOnErrorsPlugin()
--  ]
-}
-```
-
-
-### Mode: none
-```diff
-module.exports = {
-+  mode: 'none',
--  plugins: [
--  ]
-}
-```
-DENNE VISNINGEN SÅ BRA UT I BABEL DOCS, MEN VET IKKE OM VI BURDE GJØRE DET ANNERLEDES HER?
 
 ## React + hot reloading
 Ettersom react faggruppen er her må vi selvsagt 
