@@ -80,6 +80,9 @@ module.exports = {
 Her definerer man en rules property som tar en liste med objekter hvor hvert objektet skal ha de obligatoriske feltene `Test` og `Use`.
 Hver gang webpack kommer over en path som viser seg å være en '.txt' så skal man sende denne gjennom 'raw-loader' slik at den kan transformeres før den legges til bundelen. I de neste seksjonene skal vi sette opp litt forskjellige loaders som er veldig vanlige å bruke.
 
+#### Oppgave
+Bruk raw loaderen til å importere en tekstfil som en streng og bruk denne i javascripten deres.
+
 ### Less, css
 En ting vi kan bruk loaders til er å laste CSS filer inn i javascript. For å få til dette må vi installere loaderen vi ønsker å bruke:
 `npm install --save-dev css-loader`. Denne bruker vi på samme måte som 'raw-loader' ved å definere en regel under module.rules:
@@ -135,7 +138,9 @@ Bekreft at bundlen er gyldig ved å kjøre kommandoen `npm run escheck`.
 
 
 ### Typescript
-I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Vi trenger selvfølgelig en ts loader: `npm install --save-dev ts-loader` og kan deretter legge til ` { test: /\.ts$/, use: 'ts-loader' }` under listen i `module.rules`.
+I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Man må selvfølgelig installere typescript med `npm install typescript` og deretter trenger vi en ts loader: `npm install --save-dev ts-loader`. Det vil også kreves en tsconfig.json som for øyeblikket kan være helt tom.
+#### Oppgave
+Lag en typescript fil som importeres og brukes fra javascript filene dine. 
 
 ### GJØR SELV:
 Lag en typescript fil som eksporterer en funksjon, importer den i javascript filen du bruker som inngangspunkt og kall funksjonen fra jvaascript. 
