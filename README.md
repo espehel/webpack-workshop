@@ -81,7 +81,7 @@ Her definerer man en rules property som tar en liste med objekter hvor hvert obj
 Hver gang webpack kommer over en path som viser seg å være en '.txt' så skal man sende denne gjennom 'raw-loader' slik at den kan transformeres før den legges til bundelen. I de neste seksjonene skal vi sette opp litt forskjellige loaders som er veldig vanlige å bruke.
 
 #### Oppgave
-Bruk raw loaderen til å importere en tekstfil som en streng og bruk denne i javascripten deres.
+Raw loaderen tar tekstfiler og importerer innholdet rett inn i en string. Bruk raw loaderen til å importere en tekstfil som en streng og bruk denne i javascripten deres.
 
 ### Less, css
 En ting vi kan bruk loaders til er å bygge CSS filer inn i bundlen vår. For å få til dette må vi installere loaderen vi ønsker å bruke:
@@ -160,24 +160,31 @@ Les litt opp på dette og sett oopp en HTML loader....
 
 ## Plugins
 Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. F.eks bundle-optimaliseringer, ressurshåndtering og miljøvariabeler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
-For å bruke plugins må de importeres inn i webpack configen via require og brukes i `plugins` slik:
+
+### Html Webpack Plugin
+Selvom html filen som vi har lagd selv fungerer bra, hadde det vært fint om webpack kunne generert en for oss. 
+Installer HtmlWebPackPlugin(`npm i --save-dev html-webpack-plugin`) og legg til dette i webpack configen:
 ```
-const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
-const webpack = require('webpack'); //to access built-in plugins
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  module: {
-    rules: [
-      { test: /\.txt$/, use: 'raw-loader' }
-    ]
-  },
   plugins: [
-    new HtmlWebpackPlugin({template: './src/index.html'})
+    new HtmlWebpackPlugin()
   ]
-};
+}
 ```
-I dette eksempelet har man installert `html-webpack-plugin` som vil generere en html fil for applikasjonen vår hvor all den bundla javascripten er inkludert. 
+Dersom vi nå bygger prosjektet vårt(`npm run build`), ser vi at en html fil også har dukket opp i mappen `/dist`.
+Vi kan få vår devserver til å benytte denne filen ved å sette `devServer.contentBase` til `path.resolve(__dirname, './dist/')`.  
+Om vi nå starter devserveren(`npm start`), så lastes siden med både javascript og css, men javascripten vår feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template.
+```
+new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+```
+Husk å samtidig fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn javascripten vår to ganger.
 
+
+### Bundle Analyzer
 En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
 Legg til pluginen på denne måten:
 ```
