@@ -204,7 +204,7 @@ Trekk inn babel for react. Få en react component til å vises på skjermen. Få
 ## Code splitting
 Kodesplitting vil si å dele opp koden i flere bundles. Dette vil da gi deg mulighet til å laste bundler etter behov eller i parallell. Ved å gjøre dette kan man optimalisere lastetiden til applikasjonen ved å prioritere når ting skal lastes og at man henter mindre bundler. Kodesplitting kan gjøres på forskjellige måter i webpack: 
 
-###Fler entry points:
+### Fler entry points:
 	Man lager en annen start html og legger denne inn som et entry point i webpack.config.js:
   
 ```
@@ -215,7 +215,7 @@ entry: {
 ```
 Kodesplitting ved et nytt entry point er den enkleste måten å dele opp koden, men i gjengjeld mister man fleksibiletet og man har ingen mulighet til å splitte dynamisk. Det vil også bli duplisert kode dersom de forskjellige modulene er avhengi av de samme pakkene. 
 
-####Forhindre duplisering av kode:
+#### Forhindre duplisering av kode:
 Dersom man har fler entry point som beskrevet over er det fler muligheter for å forhindre duplisert kode:
 		- SplitChunksPlugin: Legge felles avhengigheter i en egen chunk.
 		- Mini-css-extract-plugin: Splitte ut css fra applikasjonen.
@@ -223,7 +223,7 @@ Dersom man har fler entry point som beskrevet over er det fler muligheter for å
 		- Promise-loader: Lignende Bundle-loader men bruker promises.
 
 
-####Oppgave:
+#### Oppgave:
 Opprett en html og en tilhørende .js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
 
 Prøv en enkel kodesplitting og sjekk at du får fler bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (eks. dersom man klikker på en knapp
