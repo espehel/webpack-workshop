@@ -1,4 +1,5 @@
 import {getTimeOfDay} from './utils';
+import styles from './styles.css';
 
 const app = document.getElementById('app');
 
