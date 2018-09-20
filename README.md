@@ -69,10 +69,6 @@ Man kan også variere byggmodus som et CLI argument `webpack --mode=production`.
 #### Oppgave
 Gjør slik at devserver bruker development, mens bundlen vi bygger bruker production.
 
-### devtool
-Det er en stor fordel å kunne debugge koden vår, etter at den har blitt deployet. TODO MORE HERE
-
-
 ## Loaders
 Out of the box skjønner webpack bare javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
 Loaders består av to hoveddeler som definerer hvordan de fungerer:
