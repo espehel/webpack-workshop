@@ -174,7 +174,15 @@ module.exports = {
 }
 ```
 Dersom vi nå bygger prosjektet vårt(`npm run build`), ser vi at en html fil også har dukket opp i mappen `/dist`.
-Vi kan få vår devserver til å benytte denne filen ved å sette `devServer.contentBase` til `path.resolve(__dirname, './dist/')`. 
+Vi kan få vår devserver til å benytte denne filen ved å sette `devServer.contentBase` til `path.resolve(__dirname, './dist/')`.  
+Om vi nå starter devserveren(`npm start`), så lastes siden med både javascript og css, men javascripten vår feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template.
+```
+new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+```
+Husk å samtidig fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn javascripten vår to ganger.
+
 
 ### Bundle Analyzer
 En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
