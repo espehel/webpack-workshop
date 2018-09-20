@@ -84,7 +84,7 @@ Hver gang webpack kommer over en path som viser seg å være en '.txt' så skal 
 Bruk raw loaderen til å importere en tekstfil som en streng og bruk denne i javascripten deres.
 
 ### Less, css
-En ting vi kan bruk loaders til er å laste CSS filer inn i javascript. For å få til dette må vi installere loaderen vi ønsker å bruke:
+En ting vi kan bruk loaders til er å bygge CSS filer inn i bundlen vår. For å få til dette må vi installere loaderen vi ønsker å bruke:
 `npm install --save-dev css-loader`. Denne bruker vi på samme måte som 'raw-loader' ved å definere en regel under module.rules:
 ```
   module: {
@@ -95,11 +95,21 @@ En ting vi kan bruk loaders til er å laste CSS filer inn i javascript. For å f
     ]
   }
 ```
+css-loader vil kun legge CSS'en vår inn i en string, så vi trenger også `style-loader` som tar stringen vår med css, og putter det i en _style-tag_ som puttes i `<head>`.
+Innstaler style-loader, `npm install --save-dev style-loader`. Siden den skal brukes for samme filer som css-loader, kan vi putte begge loaderne i et array:
+```
+  module: {
+    rules: [ { 
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader']
+       }
+    ]
+  }
+```
 
 ### Gjør selv
-Lag en .css fil og importer denne i javascripten din. Få brukt den til noe. TRENGER MER SPESIFIKASJON HER.
-
-//ALTERNATIVT- kunne vi hatt en ferdig css fil, som de da manuelt må importere inn et sted i koden for å se at styling blir lagt til. Jeg forestiller meg selv at det ikke ligger så mye nytte i at de skal skrive litt random css selv. Men om de faktisk må importere den demonstrer vi at webpack trenger å vite at det er en dependency på et vis.
+Etter å ha lagt til _css-loader_ og _style-loader_ i webpack configen, lag en .css fil og importer denne i javascripten din. Verifiser at det funger som det skal ved å legge til noen css-regler, eksempler på dette kan være _background-color_, _color_, _font-size_ eller _text-align_.  
+Ved å inspisere siden, ser vi at css du har skrevet nå ligger i `<head>`.
 
 ### Babel
 En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. HA MED EN LINK FOR NPM INSTALL HER! Legg til en regel som ser slik ut:
