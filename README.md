@@ -185,7 +185,7 @@ HtmlWebpackPlugin kan gjøre veldig mye mer, enn vist her, sjekk ut https://gith
 
 ### Bundle Analyzer
 En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
-Legg til pluginen på denne måten:
+Pluginen starter automatisk i en egen fane ved `npm start`, etter at du har lagt det til på denne måten:
 ```
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -195,7 +195,7 @@ module.exports = {
   ]
 }
 ```
-KANSKJE VI KAN LEGGE TIL NOEN PAKKER SOM TAR STOR PLASS? LODASH F:EKS?
+
 
 ## React + hot reloading
 Ettersom react faggruppen er her må vi selvsagt 
