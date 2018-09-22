@@ -198,6 +198,7 @@ module.exports = {
   ]
 }
 ```
+Vi kan se at biblioteket lodash tar veldig mye av den totale bundle størrelsen. Om vi går inn i `src/utils.js` og endrer importen av lodash til å kunne ta inn string delen av biblioteket(`import _ from 'lodash/string';`), kan vi se med webpack-bundle-analyzer at lodash nå tar opp langt mindre plass.
 
 
 ## React + hot reloading
