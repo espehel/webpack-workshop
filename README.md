@@ -5,9 +5,7 @@ I denne workshopen skal vi fokusere på webpack som utgangspunkt for å utforske
 
 Derfor starter vi i denne workshoppen med det aller mest grunnleggende, hvordan webpack bygger en _bundle_ basert på avhengighetene til en angitt fil. Videre vil vi se på ytterligere konfigurasjonsmuligheter, som hvordan vi kan dra nytte av Babel, less, og typescript, ved hjelp av _Loaders_ og _Plugins_. Vi kommer til å utforske forskjellen på produksjonsbygg og bygg best egnet for våre interne og lokale utviklingsmiljøer. Til slutt vil vi se på litt snacks som gjør hverdagen vår som utvikler litt mer behagelig.
 
-## Oppgave 1
-
-### Basic setup
+## Basic setup
 Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`.
 Prosjektet har kun 3 enkle filer `src/main.html`, `src/main.js` og `src/utils.js`. Åpne filen main.html direkte i en browser. 
 Da ser vi en velkomstmelding generert fra `src/main.js`.
@@ -57,7 +55,20 @@ Dette skyldes at dev-serveren trenger litt hjelp til å finne ut av hvor den ska
 #### Oppgave
 Sett opp dev-serveren slik at den får med seg endringer både i javascripten og htmlen vår.
 
-### Oppgave 2
+### Developmentbygg og produksjonsbygg
+Webpack gir oss gratis optimalisering basert på om et bygg skal brukes under utvikling av devserveren, eller om det skal havne i den endelige produksjonsbundelen. Et developmentbygg fokuserer på rask byggehastighet, mens et produksjonsbygg har som mål å lage en liten bundle.
+
+Vi styrer dette ved å sette `mode` til enten _production_, _development_ eller _none_ i config filen.
+```
+module.exports = {
+  mode: 'production'
+};
+```
+Man kan også variere byggmodus som et CLI argument `webpack --mode=production`.
+
+#### Oppgave
+Gjør slik at devserver bruker development, mens bundlen vi bygger bruker production.
+
 ## Loaders
 Out of the box skjønner webpack bare javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
 Loaders består av to hoveddeler som definerer hvordan de fungerer:
@@ -112,40 +123,28 @@ Etter å ha lagt til _css-loader_ og _style-loader_ i webpack configen, lag en .
 Ved å inspisere siden, ser vi at css du har skrevet nå ligger i `<head>`.
 
 ### Babel
-En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. HA MED EN LINK FOR NPM INSTALL HER! Legg til en regel som ser slik ut:
+En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. Installer de følgende babel pakkene før du fortsetter:
+`npm install @babel/core @babel/preset-env babel-loader --save-dev`. Babel core er hobedbiblioteket til babel, preset-env skal vi bruke til å konfigurere opp hva vi vil at babel skal gjøre og loaderen trenger vi for å integrere med webpack. Når disse pakkene er installert kan vi oppdatere webpack configen vår til å inkludere vår nye loader slik:
 ```
 module: {
   rules: [
     {
       test: /\.js$/,
       exclude: /(node_modules)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-          plugins: [require('@babel/plugin-proposal-class-properties')]
-        }
-      }
+      use: 'babel-loader'
     }
   ]
 }
 ```
-Hva skjer her? Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer, mens use har litt flere finurligheter og vi har en ny ting som heter `exclude`. Exclude er rimelig enkel, vi spesifiserer mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig on ineffektivt å kjøre babel transpilering på filene i node_modules.
-Under `use` definerer vi litt mer enn vi er vant til. `use.loader` spesifiserer hvilken loader vi skal bruke, mens `use.options` lar oss confige babel sin oppførsel med et _options_ objekt. I eksempelet over setter vi _@babel/preset-env_ som en _preset_. Dette tillater oss å jobbe med den siste versjonen av ECMAScript. Den dekker dog ikke eksperimentelle features, som for eksempel _class-properties_. For at babel skal klare å transpilere de, må vi legge den til i listen med plugins.
-
- 
+Hva skjer her? Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer use er fortsatt loaderen vår og `exclude` lar oss spesifisere mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig on ineffektivt å kjøre babel transpilering på filene i node_modules. Babel konfigureres vanligvis via en .babelrc fil og en av pakkene ovenfor (preset env) skal vi bruke i configen her. Preset env kompilerer koden vår som er ES2015+ kompatibel ned til es5 kompatibel kode ved å på hvilke babel plugins og polyfills som trengs avhengig av browser eller miljø. Den enkleste måte å bruke preset env på er det følgende i .babelrc filen vår:
+```
+{
+  "presets": ["@babel/preset-env"]
+}
+```
 
 ### Gjør selv
-FINN PÅ NOE VI TRENGER BABEL TIL FOR Å VERIFISERE.
-Hva er babel. Eksempel på noe som ikke fungerer i IE10(??) og som vi får til å fungere ved å kjøre koden gjennom babel. 
-
-TODO(for oss): Lag et npm script som kjører denne pakken: https://www.npmjs.com/package/es-check (kan sette opp .rc fil som peker til spesifikk fil og versjon)
-
-Kommandoen `npm run escheck` sjekker om outputen fra vår webpack pipeline er gyldig es5 kode. Om vi kjører denne kommandoen nå, ser vi at den feiler. (TENKER AT VI ALLEREDE HAR LITT DIV KODE SOM TRENGER POLYFILL OG TRANSPILERING?)
-Legg til loader for babel med de rette polyfillene slik at bundlen vår blir gyldig es5.
-Bekreft at bundlen er gyldig ved å kjøre kommandoen `npm run escheck`.
-(VED Å BEGRENSE INNHOLDET I EKSEMPLET OVER HER TIL BARE MINIMUM, OG HELLER VISE TIL BABEL SINE SIDER, SÅ KAN DETTE VÆRE EN OPPGAVE HVOR DE MÅ TENKE LITT SELV FOR Å FINNE RETT CONFIG OG POLYFILLS? OGSÅ EN LITEN NØTT MED `transform-runtime` greia)
-
+Sett opp og sjekk at babel faktisk fungerer. For å gjøre dette kan vi bruke et verktøy som heter es-check som kan installeres ved å kjøre `npm install es-check --save-dev`. Lag et npm script som peker programmet på output filen i bundelen din, f.eks: `es-check es5 ./dist/my-first-webpack.bundle.js`. Dersom du bruker babel loaderen når du bygger bundelen burde den passe es sjekken, mens dersom du ikke bruker den burde det kastes en feil.
 
 ### Typescript
 I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Man må selvfølgelig installere typescript med `npm install typescript` og deretter trenger vi en ts loader: `npm install --save-dev ts-loader`. Det vil også kreves en tsconfig.json som for øyeblikket kan være helt tom.
@@ -162,8 +161,8 @@ Les litt opp på dette og sett oopp en HTML loader....
 Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. F.eks bundle-optimaliseringer, ressurshåndtering og miljøvariabeler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
 
 ### Html Webpack Plugin
-Selvom html filen som vi har lagd selv fungerer bra, hadde det vært fint om webpack kunne generert en for oss. 
-Installer HtmlWebPackPlugin(`npm i --save-dev html-webpack-plugin`) og legg til dette i webpack configen:
+Selvom html filen som vi har lagd selv fungerer bra, hadde det vært fint om webpack kunne generert en for oss. HtmlWebpackPlugin gjør det enklere å lage html som server javascript bundlen vår.
+Installer HtmlWebpackPlugin(`npm i --save-dev html-webpack-plugin`) og legg til dette i webpack configen:
 ```
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -175,14 +174,14 @@ module.exports = {
 ```
 Dersom vi nå bygger prosjektet vårt(`npm run build`), ser vi at en html fil også har dukket opp i mappen `/dist`.
 Vi kan få vår devserver til å benytte denne filen ved å sette `devServer.contentBase` til `path.resolve(__dirname, './dist/')`.  
-Om vi nå starter devserveren(`npm start`), så lastes siden med både javascript og css, men javascripten vår feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template.
+Om vi nå starter devserveren(`npm start`), så lastes siden med både javascript og css, men javascripten vår feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template. Da vil webpack ta utgangspunkt i denne, og legge til en referanse til javascript-bundlen.
 ```
 new HtmlWebpackPlugin({
             template: './src/index.html'
         })
 ```
-Husk å samtidig fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn javascripten vår to ganger.
-
+Husk å samtidig fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn javascripten vår to ganger.  
+HtmlWebpackPlugin kan gjøre veldig mye mer, enn vist her, sjekk ut https://github.com/jantimon/html-webpack-plugin for et innblikk i det den kan gjøre.
 
 ### Bundle Analyzer
 En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
@@ -198,61 +197,50 @@ module.exports = {
 ```
 KANSKJE VI KAN LEGGE TIL NOEN PAKKER SOM TAR STOR PLASS? LODASH F:EKS?
 
-
-### ?????
-## Developmentbygg og produksjonsbygg
-Webpack støtter også forskjellige byggsituasjoner avhengig av om det er et bygg som skal brukes under utvikling eller som skal havne i den endelige produksjonsbundelen. Vi kan velge i mellom _production_, _development_ eller _none_. Hva slags bygg situasjon man er i fører til at forskjellige plugins er aktive og at den endelige bundelen ser forskjellig ut. Man kan variere byggmodus som et CLI argument `webpack --mode=production` eller ved å sette i i config filen: 
-```
-module.exports = {
-  mode: 'production'
-};
-```
-
-Ved å sette en _mode_ blir følgende config unødvendig:
-
-### Mode: development
-```diff
-module.exports = {
-+ mode: 'development'
-- devtool: 'eval',
-- plugins: [
--   new webpack.NamedModulesPlugin(),
--   new webpack.NamedChunksPlugin(),
--   new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("development") }),
-- ]
-}
-```
-
-### Mode: production
-```diff
-module.exports = {
-+  mode: 'production',
--  plugins: [
--    new UglifyJsPlugin(/* ... */),
--    new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
--    new webpack.optimize.ModuleConcatenationPlugin(),
--    new webpack.NoEmitOnErrorsPlugin()
--  ]
-}
-```
-
-
-### Mode: none
-```diff
-module.exports = {
-+  mode: 'none',
--  plugins: [
--  ]
-}
-```
-DENNE VISNINGEN SÅ BRA UT I BABEL DOCS, MEN VET IKKE OM VI BURDE GJØRE DET ANNERLEDES HER?
-
 ## React + hot reloading
 Ettersom react faggruppen er her må vi selvsagt 
 Trekk inn babel for react. Få en react component til å vises på skjermen. Få satt opp hot reloading for reactappen.
 
 ## Code splitting
-Ikke laste mer enn nødvendig. Splitte opp applikasjonen vår i forskjellige deler som kan lastes etterhvert som det er nødvendig. 
+Kodesplitting vil si å dele opp koden i flere bundles. Dette vil da gi deg mulighet til å laste bundler etter behov eller i parallell. Ved å gjøre dette kan man optimalisere lastetiden til applikasjonen ved å prioritere når ting skal lastes og at man henter mindre bundler. Kodesplitting kan gjøres på forskjellige måter i webpack: 
+
+### Fler entry points
+Man lager en annen start html og legger denne inn som et entry point i webpack.config.js:
+```
+entry: {
+  entry: './path/to/my/entry/file.js',
+  annet: './path/to/another/entry/file.js',
+},
+```
+Kodesplitting ved et nytt entry point er den enkleste måten å dele opp koden, men i gjengjeld mister man fleksibiletet og man har ingen mulighet til å splitte dynamisk. Det vil også bli duplisert kode dersom de forskjellige modulene er avhengi av de samme pakkene. 
+
+#### Forhindre duplisering av kode:
+Dersom man har fler entry point som beskrevet over er det fler muligheter for å forhindre duplisert kode:
+* `SplitChunksPlugin`: Legge felles avhengigheter i en egen chunk.
+* `Mini-css-extract-plugin`: Splitte ut css fra applikasjonen.
+* `Bundle-loader`: Splitte kode og lazy laste budlene som kommer fra kodesplittingen.
+* `Promise-loader`: Lignende Bundle-loader men bruker promises.
+
+
+#### Oppgave:
+Opprett en html og en tilhørende js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
+
+Prøv en enkel kodesplitting og sjekk at du får fler bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (eks. dersom man klikker på en knapp)
+
+### Dynamiske importer
+
+```
+module.exports = {
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-first-webpack.bundle.js',
+    chunkFilename: 'annetBundleNavn.bundle.js',
+  }
+};
+```
 
 ## Oppgradere til 4
 Parcel gjør mye av det vi nå har satt opp automatisk og det gjør også webpack med versjon 4. La oss se på en oppgradering og finne ut av hvor mye konfigurasjon som faktisk forsvinner! 
+
+## Er du ferdig?
+Ta en titt på Parcel og deres Get started guide: https://parceljs.org
