@@ -1,10 +1,14 @@
+import _ from 'lodash/string';
 export function getTimeOfDay() {
     const hours = new Date().getHours();
+    let timeOfDay = '';
     if (hours > 12) {
-        return 'kveld';
+        timeOfDay = 'kveld';
     } else if (hours < 12) {
-        return 'morgen'
+        timeOfDay = 'morgen'
     } else {
-        return 'dag';
+        timeOfDay = 'dag';
     }
+
+    return _.upperCase(timeOfDay);
 }
