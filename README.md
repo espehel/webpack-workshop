@@ -173,8 +173,11 @@ module.exports = {
 }
 ```
 Dersom vi nå bygger prosjektet vårt(`npm run build`), ser vi at en html fil også har dukket opp i mappen `/dist`.
-Vi kan få vår devserver til å benytte denne filen ved å sette `devServer.contentBase` til `path.resolve(__dirname, './dist/')`.  
-Om vi nå starter devserveren(`npm start`), så lastes siden med både javascript og css, men javascripten vår feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template. Da vil webpack ta utgangspunkt i denne, og legge til en referanse til javascript-bundlen.
+
+#### Oppgave
+Få dev-serveren til å benytte den genererte html-filen.
+
+Dersom dev-serveren nå benytter den genererte filen, vil vi oppleve at javascripten feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template. Da vil webpack ta utgangspunkt i denne, og legge til en referanse til javascript-bundlen.
 ```
 new HtmlWebpackPlugin({
             template: './src/index.html'
@@ -185,7 +188,7 @@ HtmlWebpackPlugin kan gjøre veldig mye mer, enn vist her, sjekk ut https://gith
 
 ### Bundle Analyzer
 En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
-Legg til pluginen på denne måten:
+Pluginen starter automatisk i en egen fane ved `npm start`, etter at du har lagt det til på denne måten:
 ```
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -195,7 +198,8 @@ module.exports = {
   ]
 }
 ```
-KANSKJE VI KAN LEGGE TIL NOEN PAKKER SOM TAR STOR PLASS? LODASH F:EKS?
+Vi kan se at biblioteket lodash tar veldig mye av den totale bundle størrelsen. Om vi går inn i `src/utils.js` og endrer importen av lodash til å kunne ta inn string delen av biblioteket(`import _ from 'lodash/string';`), kan vi se med webpack-bundle-analyzer at lodash nå tar opp langt mindre plass.
+
 
 ## React + hot reloading
 Ettersom react faggruppen er her må vi selvsagt 
