@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "workshop",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "start": "webpack-dev-server --config webpack.config.js --open"
+    "build": "webpack --mode=production --config webpack.config.js",
+    "start": "webpack-dev-server --mode=development --config webpack.config.js --open"
   },
   "devDependencies": {
     "css-loader": "^1.0.0",
