@@ -1,22 +1,22 @@
 # webpack-workshop
 
 ## Introduksjon
-I denne workshopen skal vi fokusere på webpack som utgangspunkt for å utforske hva som faktisk skjer når man bygger en frontend. Det er ofte mange forskjellige prosesser koden går gjennom og webpack lar oss utforske disse gradvis ved å sette opp vår egendefinerte konfigurasjon. Med webpack 4 og Parcel er det mulig å få mye av det vi setter opp manuelt i denne workshopen gratis, men i reelle kundesituasjoner er det veldig vanlig at man alikevel må frem med noe manuell konfigurasjon for å få ting til å fungere i kunden sitt miljø.
+I denne workshopen skal vi ta utgangspunkt i webpack for å utforske hva som faktisk skjer når man bygger en frontend. Det er ofte mange forskjellige prosesser koden gjennomgår og ved hjelp av webpack skal vi se på disse gradvis ved å sette opp vår egendefinerte konfigurasjon. Webpack 4 og Parcel gir mye av det vi setter opp manuelt i denne workshopen ut av boksen, men i reelle kundesituasjoner er det vanlig at man likevel tilføre konfigurasjon manuelt for å få ting til å fungere i kunden sitt miljø.
 
-Derfor starter vi i denne workshoppen med det aller mest grunnleggende, hvordan webpack bygger en _bundle_ basert på avhengighetene til en angitt fil. Videre vil vi se på ytterligere konfigurasjonsmuligheter, som hvordan vi kan dra nytte av Babel, less, og typescript, ved hjelp av _Loaders_ og _Plugins_. Vi kommer til å utforske forskjellen på produksjonsbygg og bygg best egnet for våre interne og lokale utviklingsmiljøer. Til slutt vil vi se på litt snacks som gjør hverdagen vår som utvikler litt mer behagelig.
+Vi starter denne workshopen med det aller mest grunnleggende, hvordan webpack bygger en _bundle_ basert på avhengighetene til en angitt fil. Videre vil vi se på ytterligere konfigurasjonsmuligheter, som hvordan vi kan dra nytte av Babel, less, og typescript, ved hjelp av _Loaders_ og _Plugins_. Vi kommer til å utforske forskjellen på produksjonsbygg og bygg best egnet for våre interne og lokale utviklingsmiljøer. Til slutt vil vi se på litt snacks som gjør hverdagen vår som utvikler litt mer behagelig.
 
 ## Basic setup
 Før vi kommer i gang med webpack skal vi sette opp et minimalt oppsett som vi kan bygge videre fra. Sørg for at du har node og npm installert (https://nodejs.org/en/download/) og klon dette prosjektet: `git clone https://github.com/espehel/webpack-workshop.git`.
-Prosjektet har kun 3 enkle filer `src/main.html`, `src/main.js` og `src/utils.js`. Åpne filen main.html direkte i en browser. 
+Prosjektet har kun 3 enkle filer `src/main.html`, `src/main.js` og `src/utils.js`. Åpne filen main.html direkte i en nettleser. 
 Da ser vi en velkomstmelding generert fra `src/main.js`.
 
 Vi ønsker også å inkludere tid på dagen i velkomstmeldingen.
 Dette vil vi løse ved å importere hjelpefunksjonen `getTimeOfDay()` fra `src/utils.js`.
-Dette kommer desverre til å feile siden browseren ikke forstår avhengigheten vi prøver å skape mellom `main.js` og `utils.js`. Dette kan vi løse ved å få webpack til å lage en bundle av de to javascript filene vi trenger.
+Dette kommer dessverre til å feile siden nettleseren ikke forstår avhengigheten vi prøver å skape mellom `main.js` og `utils.js`. Dette kan vi løse ved å få webpack til å lage en bundle av de to javascript filene vi trenger.
 
 Det første vi gjøre er å hente webpack fra NPM. Vi henter også webpack-cli, slik at vi kan bygge koden vår fra kommandolinja.
 Kjør `npm i -d webpack webpack-cli`. 
-For å bygge filene bruker vi et npm script, som starter webpack og gir den en config. 
+For å bygge filene bruker vi et npm script, som starter webpack og gir den en konfig. 
 Legg inn følgende under `script` i `package.json`: `"build": "webpack --config webpack.config.js"`. Opprett filen `webpack.config.js`. I neste avsnitt forklarer vi hvordan vi setter opp denne filen, slik at vi endelig kan vise velkomstmeldingen vår.
 
 ### Entry og Output
@@ -26,7 +26,7 @@ module.exports = {
   entry: './path/to/my/entry/file.js'
 };
 ```
-Output definerer hvor man ønsker at webpack skal legge bundelen som produseres og hvordan filene skal navngis. Denne defaulter til `./dist/main.js` for hovedfilen og `./dist` for alle andre genererte filer. Dette kan konfigureres ved å definere et output objekt i webpack configen:
+Output definerer hvor man ønsker at webpack skal legge bundelen som produseres og hvordan filene skal navngis. Denne defaulter til `./dist/main.js` for hovedfilen og `./dist` for alle andre genererte filer. Dette kan konfigureres ved å definere et output objekt i webpack konfigen:
 
 ```
 const path = require('path');
@@ -41,24 +41,24 @@ module.exports = {
 Her definerer `output.path` hvor vi ønsker at bundelen skal legges og `output.filename` definerer navnet.
 
 #### Oppgave
-Lag en webpack config som går utifra `main.js` og lager en bundle med alle avhengigheter denne filen har. Endre på `main.html` til å peke på bundle'en som webpack har bygd for oss.
-Dersom vi nå åpne main.html i nettleseren vil vi se en flott velkomstmelding, som også inkluderer tid på dagen.
+Lag en webpack konfig som går ut ifra `main.js` og lager en bundle med alle avhengigheter denne filen har. Endre `main.html` til å peke på bundlen som webpack har bygd for oss.
+Dersom vi nå åpner main.html i nettleseren vil vi se en velkomstmelding som også inkluderer tid på dagen.
 
 
 ### Dev-server
-Det er litt kjipt å bare sjekke at ting fungerer ved at det konstrueres en bundle, så la oss få opp en liten dev-server som lar oss eksperimentere litt raskere.
-Installer webpack-dev-server: `npm install webpack-dev-server --save-dev`. For at det skal være lettere å starte serveren kan det nok en gang være lurt å definere et npm script
-som kjører kommandoen: `webpack-dev-server --config webpack.config.js`. Hvis vi kjører dette scriptet slik prosjektet vårt er definert nå vil vi serve og se mappestrukturen til prosjektet vårt.
-Dette skyldes at dev-serveren trenger litt hjelp til å finne ut av hvor den skal laste bundelen vår fra og hvor den statiske html filen vår skal serves fra.
-`publicPath` definerer hvor bundelen skal serves fra og `contentBase` definerer hvor vi skal hente statisk content fra.
+Å verifisere at konfigurasjonen og koden fungerer kun ved å se at det konstrueres en bundle, for så å måtte finne html-filen og åpne denne i en nettleser, er ikke optimalt. Webpack tilbyr en dev-server som lar oss eksperimentere litt raskere.
+
+Installer webpack-dev-server: `npm install webpack-dev-server --save-dev`. For at det skal være lettere å starte serveren kan det nok en gang være lurt å definere et npm script som kjører kommandoen: `webpack-dev-server --config webpack.config.js`. Hvis vi kjører dette scriptet slik prosjektet vårt er definert nå vil vi serve og se mappestrukturen til prosjektet vårt.
+Dette skyldes at dev-serveren trenger litt hjelp til å finne ut av hvor den skal laste bundelen vår fra og hvor den statiske html-filen vår skal serves fra.
+`publicPath` definerer hvor bundelen ligger og `contentBase` definerer hvor vi skal hente statisk content fra.
 
 #### Oppgave
-Sett opp dev-serveren slik at den får med seg endringer både i javascripten og htmlen vår.
+Sett opp dev-serveren slik at den får med seg endringer både i javascript og htmlen vår.
 
 ### Developmentbygg og produksjonsbygg
-Webpack gir oss gratis optimalisering basert på om et bygg skal brukes under utvikling av devserveren, eller om det skal havne i den endelige produksjonsbundelen. Et developmentbygg fokuserer på rask byggehastighet, mens et produksjonsbygg har som mål å lage en liten bundle.
+Webpack gir oss optimalisering basert på om et bygg skal brukes under utvikling av dev-serveren, eller om det skal havne i den endelige produksjonsbundelen. Et developmentbygg fokuserer på rask byggehastighet, mens et produksjonsbygg har som mål å lage en liten bundle.
 
-Vi styrer dette ved å sette `mode` til enten _production_, _development_ eller _none_ i config filen.
+Vi styrer dette ved å sette `mode` til enten _production_, _development_ eller _none_ i konfig filen.
 ```
 module.exports = {
   mode: 'production'
@@ -67,7 +67,7 @@ module.exports = {
 Man kan også variere byggmodus som et CLI argument `webpack --mode=production`.
 
 #### Oppgave
-Gjør slik at devserver bruker development, mens bundlen vi bygger bruker production.
+Gjør slik at dev-serveren bruker development, mens bundlen vi bygger bruker production.
 
 ## Loaders
 Out of the box skjønner webpack bare javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
