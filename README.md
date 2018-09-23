@@ -153,11 +153,11 @@ I dag er det stadig mer populært å få typer inn i javascript verden. Den mest
 Lag en typescript fil som eksporterer en funksjon, importer den i javascript filen du bruker som inngangspunkt og kall funksjonen fra javascript. 
 
 ## Plugins
-Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. F.eks bundle-optimaliseringer, ressurshåndtering og miljøvariabeler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
+Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. For eksempel bundle-optimaliseringer, ressurshåndtering og miljøvariabler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
 
 ### Html Webpack Plugin
-Selvom html filen som vi har lagd selv fungerer bra, hadde det vært fint om webpack kunne generert en for oss. HtmlWebpackPlugin gjør det enklere å lage html som server javascript bundlen vår.
-Installer HtmlWebpackPlugin(`npm i --save-dev html-webpack-plugin`) og legg til dette i webpack configen:
+Selv om html-filen som vi har laget selv fungerer bra, er det enkelre om webpack genererer en for oss. HtmlWebpackPlugin gjør det enklere å lage html som knytter inn javascript bundlen vår.
+Installer HtmlWebpackPlugin(`npm i --save-dev html-webpack-plugin`) og legg til dette i webpack-konfigen:
 ```
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -167,23 +167,23 @@ module.exports = {
   ]
 }
 ```
-Dersom vi nå bygger prosjektet vårt(`npm run build`), ser vi at en html fil også har dukket opp i mappen `/dist`.
+Dersom vi nå bygger prosjektet vårt med `npm run build`, ser vi at en html-fil også har dukket opp i mappen `/dist`.
 
 #### Oppgave
 Få dev-serveren til å benytte den genererte html-filen.
 
-Dersom dev-serveren nå benytter den genererte filen, vil vi oppleve at javascripten feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette HTML filen vår som en template. Da vil webpack ta utgangspunkt i denne, og legge til en referanse til javascript-bundlen.
+Dersom dev-serveren nå benytter den genererte filen, vil vi oppleve at javascript feiler, ettersom den ser etter et element i DOM'en som ikke finnes. Vi løser dette ved å sette html-filen vår som en template. Da vil webpack ta utgangspunkt i denne, og legge til en referanse i javascript-bundlen.
 ```
 new HtmlWebpackPlugin({
             template: './src/index.html'
         })
 ```
-Husk å samtidig fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn javascripten vår to ganger.  
-HtmlWebpackPlugin kan gjøre veldig mye mer, enn vist her, sjekk ut https://github.com/jantimon/html-webpack-plugin for et innblikk i det den kan gjøre.
+Husk å fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn vår javascript to ganger.  
+HtmlWebpackPlugin kan gjøre veldig mye mer enn vist her, sjekk ut https://github.com/jantimon/html-webpack-plugin for et innblikk i det den kan gjøre.
 
 ### Bundle Analyzer
-En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevell kan det hende at vi fortsatt sitter igjen med en veldig stor bundle. Da er webpack-bundle-analyzer et utrolig bra verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
-Pluginen starter automatisk i en egen fane ved `npm start`, etter at du har lagt det til på denne måten:
+En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevel kan det hende at vi fortsatt sitter igjen med en  stor bundle. Webpack-bundle-analyzer er et verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
+Pluginen starter automatisk i en egen fane ved `npm start` etter at du har lagt det til på denne måten i webpack konfigurasjonen:
 ```
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -201,7 +201,7 @@ Ettersom react faggruppen er her må vi selvsagt
 Trekk inn babel for react. Få en react component til å vises på skjermen. Få satt opp hot reloading for reactappen.
 
 ## Code splitting
-Kodesplitting vil si å dele opp koden i flere bundles. Dette vil da gi deg mulighet til å laste bundler etter behov eller i parallell. Ved å gjøre dette kan man optimalisere lastetiden til applikasjonen ved å prioritere når ting skal lastes og at man henter mindre bundler. Kodesplitting kan gjøres på forskjellige måter i webpack: 
+Kodesplitting vil si å dele opp koden i flere bundles. Dette vil da gi deg mulighet til å laste bundler etter behov eller i parallell. Ved å gjøre dette kan man optimalisere lastetiden til applikasjonen ved å prioritere hvilken bundle/kode som skal lastes når og at man henter mindre bundler. Kodesplitting kan gjøres på forskjellige måter i webpack: 
 
 ### Fler entry points
 Man lager en annen start html og legger denne inn som et entry point i webpack.config.js:
@@ -211,7 +211,7 @@ entry: {
   annet: './path/to/another/entry/file.js',
 },
 ```
-Kodesplitting ved et nytt entry point er den enkleste måten å dele opp koden, men i gjengjeld mister man fleksibiletet og man har ingen mulighet til å splitte dynamisk. Det vil også bli duplisert kode dersom de forskjellige modulene er avhengi av de samme pakkene. 
+Kodesplitting ved et nytt entry point er den enkleste måten å dele opp koden, men i gjengjeld mister man fleksibilitet og man har ingen mulighet til å splitte dynamisk. Det vil også bli duplisert kode dersom de forskjellige modulene er avhengig av de samme pakkene. 
 
 #### Forhindre duplisering av kode:
 Dersom man har fler entry point som beskrevet over er det fler muligheter for å forhindre duplisert kode:
@@ -222,9 +222,9 @@ Dersom man har fler entry point som beskrevet over er det fler muligheter for å
 
 
 #### Oppgave:
-Opprett en html og en tilhørende js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
+Opprett en html-fil som importerer en tilhørende js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
 
-Prøv en enkel kodesplitting og sjekk at du får fler bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (eks. dersom man klikker på en knapp)
+Prøv en enkel kodesplitting og sjekk at du får to bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (for eksempel dersom man klikker på en knapp)
 
 ### Dynamiske importer
 
@@ -238,8 +238,7 @@ module.exports = {
 };
 ```
 
-## Oppgradere til 4
-Parcel gjør mye av det vi nå har satt opp automatisk og det gjør også webpack med versjon 4. La oss se på en oppgradering og finne ut av hvor mye konfigurasjon som faktisk forsvinner! 
-
 ## Er du ferdig?
-Ta en titt på Parcel og deres Get started guide: https://parceljs.org
+* Les om webpack konfigurasjonen som nå komemr ut av boksen i webpack 4: https://webpack.js.org/configuration/ 
+* Utfork mer av webpack: https://webpack.js.org/
+* Ta en titt på Parcel og deres Get started guide: https://parceljs.org
