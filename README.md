@@ -26,7 +26,7 @@ module.exports = {
   entry: './path/to/my/entry/file.js'
 };
 ```
-Output definerer hvor man ønsker at webpack skal legge bundelen som produseres og hvordan filene skal navngis. Denne defaulter til `./dist/main.js` for hovedfilen og `./dist` for alle andre genererte filer. Dette kan konfigureres ved å definere et output objekt i webpack konfigen:
+Output definerer hvor man ønsker at webpack skal legge bundelen som produseres og hvordan filene skal navngis. Denne defaulter til `./dist/main.js` for hovedfilen og `./dist` for alle andre genererte filer. Dette kan konfigureres ved å definere et output objekt i webpack-konfigen:
 
 ```
 const path = require('path');
@@ -41,7 +41,7 @@ module.exports = {
 Her definerer `output.path` hvor vi ønsker at bundelen skal legges og `output.filename` definerer navnet.
 
 #### Oppgave
-Lag en webpack konfig som går ut ifra `main.js` og lager en bundle med alle avhengigheter denne filen har. Endre `main.html` til å peke på bundlen som webpack har bygd for oss.
+Lag en webpack-konfig som går ut ifra `main.js` og lager en bundle med alle avhengigheter denne filen har. Endre `main.html` til å peke på bundlen som webpack har bygd for oss.
 Dersom vi nå åpner main.html i nettleseren vil vi se en velkomstmelding som også inkluderer tid på dagen.
 
 
@@ -70,9 +70,9 @@ Man kan også variere byggmodus som et CLI argument `webpack --mode=production`.
 Gjør slik at dev-serveren bruker development, mens bundlen vi bygger bruker production.
 
 ## Loaders
-Out of the box skjønner webpack bare javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
+Webpack forstår i utgangspunktet kun javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
 Loaders består av to hoveddeler som definerer hvordan de fungerer:
-`Test` propertien brukes til å definere hvilke filer som skal identiseres og transformeres.
+`Test` propertien brukes til å definere hvilke filer som skal identifiseres og transformeres.
 `Use` propertien definerer hvillken loader som skal gjøre selve transformeringen. Et grunnleggende eksempel på dette er:
 ```
 module.exports = {
@@ -88,15 +88,15 @@ module.exports = {
   }
 };
 ```
-Her definerer man en rules property som tar en liste med objekter hvor hvert objektet skal ha de obligatoriske feltene `Test` og `Use`.
+Her setter man en `rules` property som tar en liste med objekter hvor hvert objektet skal ha de obligatoriske feltene `Test` og `Use`.
 Hver gang webpack kommer over en path som viser seg å være en '.txt' så skal man sende denne gjennom 'raw-loader' slik at den kan transformeres før den legges til bundelen. I de neste seksjonene skal vi sette opp litt forskjellige loaders som er veldig vanlige å bruke.
 
 #### Oppgave
 Raw loaderen tar tekstfiler og importerer innholdet rett inn i en string. Bruk raw loaderen til å importere en tekstfil som en streng og bruk denne i javascripten deres.
 
 ### Less, css
-En ting vi kan bruk loaders til er å bygge CSS filer inn i bundlen vår. For å få til dette må vi installere loaderen vi ønsker å bruke:
-`npm install --save-dev css-loader`. Denne bruker vi på samme måte som 'raw-loader' ved å definere en regel under module.rules:
+En ting vi kan bruke loaders til er å bygge CSS filer inn i bundlen vår. For å få til dette må vi installere loaderen vi ønsker å bruke:
+`npm install --save-dev css-loader`. Denne konfigurerer vi på samme måte som 'raw-loader' ved å definere en regel under module.rules:
 ```
   module: {
     rules: [ { 
@@ -106,8 +106,8 @@ En ting vi kan bruk loaders til er å bygge CSS filer inn i bundlen vår. For å
     ]
   }
 ```
-css-loader vil kun legge CSS'en vår inn i en string, så vi trenger også `style-loader` som tar stringen vår med css, og putter det i en _style-tag_ som puttes i `<head>`.
-Innstaler style-loader, `npm install --save-dev style-loader`. Siden den skal brukes for samme filer som css-loader, kan vi putte begge loaderne i et array:
+css-loader vil kun legge CSS'en vår inn i en string, så vi trenger også `style-loader` som tar stringen vår med css, og putter det i en _style-tag_ som plasseres i `<head>`.
+Innstaller style-loader, `npm install --save-dev style-loader`. Siden den skal brukes for samme filer som css-loader, kan vi putte begge loaderne i et array:
 ```
   module: {
     rules: [ { 
@@ -118,13 +118,13 @@ Innstaler style-loader, `npm install --save-dev style-loader`. Siden den skal br
   }
 ```
 
-### Gjør selv
-Etter å ha lagt til _css-loader_ og _style-loader_ i webpack configen, lag en .css fil og importer denne i javascripten din. Verifiser at det funger som det skal ved å legge til noen css-regler, eksempler på dette kan være _background-color_, _color_, _font-size_ eller _text-align_.  
+#### Oppgave
+Legg til _css-loader_ og _style-loader_ i webpack-konfigen, lag deretter en .css fil og importer denne i javascripten din. Verifiser at det funger som det skal ved å legge til noen css-regler, eksempler på dette kan være _background-color_, _color_, _font-size_ eller _text-align_.  
 Ved å inspisere siden, ser vi at css du har skrevet nå ligger i `<head>`.
 
 ### Babel
-En av de viktigste transofmeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive es6 javascript og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir byttet ut med annen javascript som kjører i et brede spekter av nettlesere. Installer de følgende babel pakkene før du fortsetter:
-`npm install @babel/core @babel/preset-env babel-loader --save-dev`. Babel core er hobedbiblioteket til babel, preset-env skal vi bruke til å konfigurere opp hva vi vil at babel skal gjøre og loaderen trenger vi for å integrere med webpack. Når disse pakkene er installert kan vi oppdatere webpack configen vår til å inkludere vår nye loader slik:
+En av de viktigste transformeringene for oss utviklere er at man kan skrive ny javascript kode som faktisk kjører på "alle" nettlesere. In comes Babel. Babel lar oss skrive ES6 og definere polyfills (kode som skal byttes ut med spesifikk annen kode) som blir transpilert til annen versjon av javascript som kan kjøre i et bredere spekter av nettlesere. Installer de følgende babel-pakkene før du fortsetter:
+`npm install @babel/core @babel/preset-env babel-loader --save-dev`. Babel core er hovedbiblioteket til babel, preset-env skal vi bruke til å konfigurere opp hva vi vil at babel skal gjøre og loaderen trenger vi for å integrere med webpack. Når disse pakkene er installert kan vi oppdatere webpack-konfigen vår til å inkludere vår nye loader slik:
 ```
 module: {
   rules: [
@@ -136,26 +136,21 @@ module: {
   ]
 }
 ```
-Hva skjer her? Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer use er fortsatt loaderen vår og `exclude` lar oss spesifisere mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig on ineffektivt å kjøre babel transpilering på filene i node_modules. Babel konfigureres vanligvis via en .babelrc fil og en av pakkene ovenfor (preset env) skal vi bruke i configen her. Preset env kompilerer koden vår som er ES2015+ kompatibel ned til es5 kompatibel kode ved å på hvilke babel plugins og polyfills som trengs avhengig av browser eller miljø. Den enkleste måte å bruke preset env på er det følgende i .babelrc filen vår:
+Som vanlig definerer vi `test` og `use`. Test er satt til alle javascript filer, use er fortsatt loaderen vår og `exclude` lar oss spesifisere mapper vi ønsker at denne regelen ikke skal gjelde for. Det er både unødvendig og ineffektivt å kjøre babel transpilering på filene i node_modules. Babel konfigureres vanligvis via en .babelrc fil og en av pakkene ovenfor (preset env) skal brukes i konfigen her. Preset env kompilerer koden vår som er ES2015+ kompatibel ned til ES5 kompatibel kode ved å bruke babel plugins og polyfills som kan variere avhengig av browser eller miljø. Den enkleste måte å bruke preset env på er å ha det følgende i .babelrc-filen vår:
 ```
 {
   "presets": ["@babel/preset-env"]
 }
 ```
 
-### Gjør selv
-Sett opp og sjekk at babel faktisk fungerer. For å gjøre dette kan vi bruke et verktøy som heter es-check som kan installeres ved å kjøre `npm install es-check --save-dev`. Lag et npm script som peker programmet på output filen i bundelen din, f.eks: `es-check es5 ./dist/my-first-webpack.bundle.js`. Dersom du bruker babel loaderen når du bygger bundelen burde den passe es sjekken, mens dersom du ikke bruker den burde det kastes en feil.
+#### Oppgave
+Sett opp og sjekk at babel faktisk fungerer. For å gjøre dette kan vi bruke et verktøy som heter ES-Check som kan installeres ved å kjøre `npm install es-check --save-dev`. Lag et npm script som peker programmet på output filen i bundelen din, f.eks: `es-check es5 ./dist/my-first-webpack.bundle.js`. Dersom du bruker babel loaderen når du bygger bundelen, burde den passere ES sjekken. Dersom du derimot ikke bruker den burde det kastes en feil.
 
 ### Typescript
-I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er rimelig enkelt nå som webpack configen vår begynner å komme seg. Man må selvfølgelig installere typescript med `npm install typescript` og deretter trenger vi en ts loader: `npm install --save-dev ts-loader`. Det vil også kreves en tsconfig.json som for øyeblikket kan være helt tom.
+I dag er det stadig mer populært å få typer inn i javascript verden. Den mest direkte måten å gjøre dette på er å introdusere Typescript eller Flow. Dette er ukomplisert nå som webpack-konfigen vår begynner å ta form. Man må selvfølgelig installere typescript med `npm install typescript` og deretter trenger vi en ts loader: `npm install --save-dev ts-loader`. Det vil også kreves en tsconfig.json som for øyeblikket kan være helt tom.
+
 #### Oppgave
-Lag en typescript fil som importeres og brukes fra javascript filene dine. 
-
-### GJØR SELV:
-Lag en typescript fil som eksporterer en funksjon, importer den i javascript filen du bruker som inngangspunkt og kall funksjonen fra jvaascript. 
-
-### Html loader
-Les litt opp på dette og sett oopp en HTML loader....
+Lag en typescript fil som eksporterer en funksjon, importer den i javascript filen du bruker som inngangspunkt og kall funksjonen fra javascript. 
 
 ## Plugins
 Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. F.eks bundle-optimaliseringer, ressurshåndtering og miljøvariabeler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
