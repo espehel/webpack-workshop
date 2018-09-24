@@ -67,7 +67,8 @@ module.exports = {
 Man kan også variere byggmodus som et CLI argument `webpack --mode=production`.
 
 #### Oppgave
-Gjør slik at dev-serveren bruker development, mens bundlen vi bygger bruker production.
+Prøv å bygg både med `mode: 'production'` og `mode: 'development'`, åpne bundlen og se på forskjellen.
+Etter det, gjør slik at dev-serveren bruker development, mens bundlen vi bygger bruker production.
 
 ## Loaders
 Webpack forstår i utgangspunktet kun javascript, men ved hjelp av loaders kan vi få webpack til å prosessere forskjellige typer filer. Disse blir da konvertert til moduler som legges til i webpack sitt dependency tre.
@@ -156,7 +157,7 @@ Lag en typescript fil som eksporterer en funksjon, importer den i javascript fil
 Der loaders brukes til å gjennomføre en spesifikk transformasjon på visse moduler/filer bruker man webpack plugins for å gjennomføre et bredere spekter av oppgaver. For eksempel bundle-optimaliseringer, ressurshåndtering og miljøvariabler trenger man plugins for å fikse. Mange av disse pluginsene kommer allerede med i en webpack installasjon og brukes uten at man nødvendigvis tenker over at det er en plugin. 
 
 ### Html Webpack Plugin
-Selv om html-filen som vi har laget selv fungerer bra, er det enkelre om webpack genererer en for oss. HtmlWebpackPlugin gjør det enklere å lage html som knytter inn javascript bundlen vår.
+Selv om html-filen som vi har laget selv fungerer bra, er det enklere om webpack genererer en for oss. HtmlWebpackPlugin genererer rett og slett en standard html-fil med en script tag som linker til bundlen vår, og putter den i output mappen.
 Installer HtmlWebpackPlugin(`npm i --save-dev html-webpack-plugin`) og legg til dette i webpack-konfigen:
 ```
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -182,7 +183,7 @@ Husk å fjerne script-taggen fra `src/index.html` slik at vi ikke laster inn vå
 HtmlWebpackPlugin kan gjøre veldig mye mer enn vist her, sjekk ut https://github.com/jantimon/html-webpack-plugin for et innblikk i det den kan gjøre.
 
 ### Bundle Analyzer
-En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har allerede lært hvordan vi kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevel kan det hende at vi fortsatt sitter igjen med en  stor bundle. Webpack-bundle-analyzer er et verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
+En annen nyttig plugin er [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). Vi har sett hvordan webpack kan minimize bundlen vår slik at den egner seg bedre for produksjon. Likevel kan det hende at vi fortsatt sitter igjen med en stor bundle. Webpack-bundle-analyzer er et verktøy som lar oss se hvilke pakker bundlen vår inneholder, og hvor stor plass de faktisk tar.
 Pluginen starter automatisk i en egen fane ved `npm start` etter at du har lagt det til på denne måten i webpack konfigurasjonen:
 ```
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -239,6 +240,6 @@ module.exports = {
 ```
 
 ## Er du ferdig?
-* Les om webpack konfigurasjonen som nå komemr ut av boksen i webpack 4: https://webpack.js.org/configuration/ 
-* Utfork mer av webpack: https://webpack.js.org/
+* Les om webpack konfigurasjonen som nå kommer ut av boksen i webpack 4: https://webpack.js.org/configuration/
+* Utforsk mer av webpack: https://webpack.js.org/
 * Ta en titt på Parcel og deres Get started guide: https://parceljs.org
