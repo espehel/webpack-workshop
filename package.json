@@ -3,19 +3,8 @@
   "version": "1.0.0",
   "description": "workshop",
   "scripts": {
-    "build": "webpack --mode=production --config webpack.config.js",
-    "start": "webpack-dev-server --mode=development --config webpack.config.js --open"
-  },
-  "devDependencies": {
-    "css-loader": "^1.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "style-loader": "^0.23.0",
-    "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.8"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
-    "webpack-bundle-analyzer": "^3.0.2"
+    "lodash": "^4.17.11"
   }
 }
