@@ -227,7 +227,7 @@ Dersom man har fler entry point som beskrevet over er det fler muligheter for å
 #### Oppgave:
 Opprett en html-fil som importerer en tilhørende js fil. Legg html filen ved siden av den eksisterende index.html og js filen under src-mappen.
 
-Prøv en enkel kodesplitting og sjekk at du får to bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (for eksempel dersom man klikker på en knapp)
+Prøv en enkel kodesplitting og sjekk at du får to bundles. 
 
 ### Dynamiske importer
 I denne workshopen skal vi bruke import() for dynamiske importer. (Det finnes en alternativ måte for dynamisk import, om du er interessert kan du lese mer om den her https://webpack.js.org/api/module-methods/#require-ensure).
@@ -309,6 +309,7 @@ For mer informasjon import() finner du dette her: https://webpack.js.org/api/mod
 
 ## Er du ferdig?
 * Sett opp hot reloading for react componenten din. Her burde man introdusere en ny komponent med state og se at state forblir inntakt på tvers av reloads. 
+* Les mer om code splitting og prøv å laste kun en bundle først og en annen ved behov. (eks klik på en knapp e.ll)
 * Les om webpack konfigurasjonen som nå kommer ut av boksen i webpack 4: https://webpack.js.org/configuration/
 * Utforsk mer av webpack: https://webpack.js.org/
 * Ta en titt på Parcel og deres Get started guide: https://parceljs.org
