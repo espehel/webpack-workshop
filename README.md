@@ -230,16 +230,45 @@ Opprett en html-fil som importerer en tilhørende js fil. Legg html filen ved si
 Prøv en enkel kodesplitting og sjekk at du får to bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (for eksempel dersom man klikker på en knapp)
 
 ### Dynamiske importer
+I denne workshopen skal vi bruke import() for dynamiske importer. (Det finnes en alternativ måte for dynamisk import, om du er interessert kan du lese mer om den her https://webpack.js.org/api/module-methods/#require-ensure).
 
+I webpack-konfigurasjonen vår må vi sette opp en chunk-fil dette vil si en bundle uten et entry piont:  
 ```
 module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'my-first-webpack.bundle.js',
-    chunkFilename: 'annetBundleNavn.bundle.js',
+    chunkFilename: '[id].bundle.js',  
   }
 };
 ```
+I utils.js filen vi har i prosjektet vårt har vi statisk importert `lodash`, dette skal vi nå endre til en dynamisk hentet avhengigheten. 
+```
+export function getTimeOfDay() {
+  return import(’lodash’).then(({default: _}) => { 
+    const hours = new Date().getHours();
+    let timeOfDay = '';
+    if (hours > 12) {
+        timeOfDay = 'kveld';
+    } else if (hours < 12) {
+        timeOfDay = 'morgen'
+    } else {
+        timeOfDay = 'dag';
+    }
+ 
+    return _.upperCase(timeOfDay);
+ }).catch(error => ’Kunne ikke hente lodash – dermed ikke komponenten’)
+}
+```
+OBS: Dette returnerer et promise som man må resolve når man henter komponenten. 
+
+```
+getTimeOfDay().then(component => {
+   // gjør noe med component
+})
+```
+
+
 
 ## Er du ferdig?
 * Sett opp hot reloading for react componenten din. Her burde man introdusere en ny komponent med state og se at state forblir inntakt på tvers av reloads. 
