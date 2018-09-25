@@ -267,7 +267,44 @@ getTimeOfDay().then(component => {
    // gjør noe med component
 })
 ```
+#### Oppgave 
+Hent lodash dynamisk inn i getTimeOfDay komponenten og derettter bygg prosjektet med webpack for å se at `lodash` nå har blitt splittet ut i en egen bundle. 
 
+Siden import() returnerer et promise kan man også bruke async await for å hente importene ved hjelp av babel og Syntax-dynamic-import pluginen. Last ned pluginen med ´npm install --save-dev @babel/plugin-syntax-dynamic-import` og legg den inn i .babelrc filen din:
+
+```
+{
+  "plugins": ["@babel/plugin-syntax-dynamic-import"]
+}
+```
+Med dette kan koden endres slik:
+
+
+```
+export async function getTimeOfDay() {
+    const { default: _ } = await import('lodash');
+    const hours = new Date().getHours();
+    
+    let timeOfDay = '';
+    if (hours > 12) {
+        timeOfDay = 'kveld';
+    } else if (hours < 12) {
+        timeOfDay = 'morgen'
+    } else {
+        timeOfDay = 'dag';
+    }
+    return _.upperCase(timeOfDay);
+ }
+}
+```
+OBS: Dette returnerer et promise som man må resolve når man henter komponenten. 
+
+```
+getTimeOfDay().then(component => {
+   // gjør noe med component
+})
+```
+For mer informasjon import() finner du dette her: https://webpack.js.org/api/module-methods/#import-
 
 
 ## Er du ferdig?
