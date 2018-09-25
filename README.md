@@ -197,9 +197,11 @@ module.exports = {
 Vi kan se at biblioteket lodash tar veldig mye av den totale bundle størrelsen. Om vi går inn i `src/utils.js` og endrer importen av lodash til å kunne ta inn string delen av biblioteket(`import _ from 'lodash/string';`), kan vi se med webpack-bundle-analyzer at lodash nå tar opp langt mindre plass.
 
 
-## React + hot reloading
-Ettersom react faggruppen er her må vi selvsagt 
-Trekk inn babel for react. Få en react component til å vises på skjermen. Få satt opp hot reloading for reactappen.
+## React
+Ettersom react faggruppen er her må vi selvsagt leke litt med React. Ettersom vi allerede har et babel oppsett gående er det litt mindre som trengs å gjøre enn vanlig. Vi trenger selvsagt React: `npm install --save react react-dom`. Og vi må ha litt mer hjelp til Babel: `npm install --save-dev @babel/preset-react`. Denne pakken lar oss blant annet transformere jsx. 
+
+#### Oppgave
+Lag en React component og rendrer denne i nettsiden din. Husk å koble React på et element i DOMen din.
 
 ## Code splitting
 Kodesplitting vil si å dele opp koden i flere bundles. Dette vil da gi deg mulighet til å laste bundler etter behov eller i parallell. Ved å gjøre dette kan man optimalisere lastetiden til applikasjonen ved å prioritere hvilken bundle/kode som skal lastes når og at man henter mindre bundler. Kodesplitting kan gjøres på forskjellige måter i webpack: 
@@ -216,10 +218,10 @@ Kodesplitting ved et nytt entry point er den enkleste måten å dele opp koden, 
 
 #### Forhindre duplisering av kode:
 Dersom man har fler entry point som beskrevet over er det fler muligheter for å forhindre duplisert kode:
-* `SplitChunksPlugin`: Legge felles avhengigheter i en egen chunk.
-* `Mini-css-extract-plugin`: Splitte ut css fra applikasjonen.
-* `Bundle-loader`: Splitte kode og lazy laste budlene som kommer fra kodesplittingen.
-* `Promise-loader`: Lignende Bundle-loader men bruker promises.
+* `SplitChunksPlugin`: Legge felles avhengigheter i en egen chunk. Les mer: https://webpack.js.org/plugins/split-chunks-plugin/
+* `Mini-css-extract-plugin`: Splitte ut css fra applikasjonen. Les mer: https://webpack.js.org/plugins/mini-css-extract-plugin/
+* `Bundle-loader`: Splitte kode og lazy laste budlene som kommer fra kodesplittingen. Les mer: https://webpack.js.org/loaders/bundle-loader/
+* `Promise-loader`: Lignende Bundle-loader men bruker promises. Les mer: https://github.com/gaearon/promise-loader
 
 
 #### Oppgave:
@@ -228,18 +230,85 @@ Opprett en html-fil som importerer en tilhørende js fil. Legg html filen ved si
 Prøv en enkel kodesplitting og sjekk at du får to bundles. Prøv og å få den ene bundelen kun til å lastes ved behov (for eksempel dersom man klikker på en knapp)
 
 ### Dynamiske importer
+I denne workshopen skal vi bruke import() for dynamiske importer. (Det finnes en alternativ måte for dynamisk import, om du er interessert kan du lese mer om den her https://webpack.js.org/api/module-methods/#require-ensure).
 
+I webpack-konfigurasjonen vår må vi sette opp en chunk-fil dette vil si en bundle uten et entry piont:  
 ```
 module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'my-first-webpack.bundle.js',
-    chunkFilename: 'annetBundleNavn.bundle.js',
+    chunkFilename: '[id].bundle.js',  
   }
 };
 ```
+I utils.js filen vi har i prosjektet vårt har vi statisk importert `lodash`, dette skal vi nå endre til en dynamisk hentet avhengigheten. 
+```
+export function getTimeOfDay() {
+  return import(’lodash’).then(({default: _}) => { 
+    const hours = new Date().getHours();
+    let timeOfDay = '';
+    if (hours > 12) {
+        timeOfDay = 'kveld';
+    } else if (hours < 12) {
+        timeOfDay = 'morgen'
+    } else {
+        timeOfDay = 'dag';
+    }
+ 
+    return _.upperCase(timeOfDay);
+ }).catch(error => ’Kunne ikke hente lodash – dermed ikke komponenten’)
+}
+```
+OBS: Dette returnerer et promise som man må resolve når man henter komponenten. 
+
+```
+getTimeOfDay().then(component => {
+   // gjør noe med component
+})
+```
+#### Oppgave 
+Hent lodash dynamisk inn i getTimeOfDay komponenten og deretter bygg prosjektet med webpack for å se at `lodash` nå har blitt splittet ut i en egen bundle. 
+
+Siden import() returnerer et promise kan man også bruke async await for å hente importene ved hjelp av babel og Syntax-dynamic-import pluginen. Last ned pluginen med ´npm install --save-dev @babel/plugin-syntax-dynamic-import` og legg den inn i .babelrc filen din:
+
+```
+{
+  "plugins": ["@babel/plugin-syntax-dynamic-import"]
+}
+```
+Med dette kan koden endres slik:
+
+
+```
+export async function getTimeOfDay() {
+    const { default: _ } = await import('lodash');
+    const hours = new Date().getHours();
+    
+    let timeOfDay = '';
+    if (hours > 12) {
+        timeOfDay = 'kveld';
+    } else if (hours < 12) {
+        timeOfDay = 'morgen'
+    } else {
+        timeOfDay = 'dag';
+    }
+    return _.upperCase(timeOfDay);
+ }
+}
+```
+OBS: Dette returnerer et promise som man må resolve når man henter komponenten. 
+
+```
+getTimeOfDay().then(component => {
+   // gjør noe med component
+})
+```
+For mer informasjon import() finner du dette her: https://webpack.js.org/api/module-methods/#import-
+
 
 ## Er du ferdig?
+* Sett opp hot reloading for react componenten din. Her burde man introdusere en ny komponent med state og se at state forblir inntakt på tvers av reloads. 
 * Les om webpack konfigurasjonen som nå kommer ut av boksen i webpack 4: https://webpack.js.org/configuration/
 * Utforsk mer av webpack: https://webpack.js.org/
 * Ta en titt på Parcel og deres Get started guide: https://parceljs.org
