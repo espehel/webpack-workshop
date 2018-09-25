@@ -245,7 +245,7 @@ module.exports = {
 I utils.js filen vi har i prosjektet vårt har vi statisk importert `lodash`, dette skal vi nå endre til en dynamisk hentet avhengigheten. 
 ```
 export function getTimeOfDay() {
-  return import(’lodash’).then(({default: _}) => { 
+  return import("lodash").then(({default: _}) => { 
     const hours = new Date().getHours();
     let timeOfDay = '';
     if (hours > 12) {
@@ -257,7 +257,7 @@ export function getTimeOfDay() {
     }
  
     return _.upperCase(timeOfDay);
- }).catch(error => ’Kunne ikke hente lodash – dermed ikke komponenten’)
+ }).catch(error => "Kunne ikke hente lodash – dermed ikke komponenten")
 }
 ```
 OBS: Dette returnerer et promise som man må resolve når man henter komponenten. 
@@ -282,7 +282,7 @@ Med dette kan koden endres slik:
 
 ```
 export async function getTimeOfDay() {
-    const { default: _ } = await import('lodash');
+    const { default: _ } = await import("lodash");
     const hours = new Date().getHours();
     
     let timeOfDay = '';
