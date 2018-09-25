@@ -51,6 +51,13 @@ Dersom vi nå åpner main.html i nettleseren vil vi se en velkomstmelding som og
 Installer webpack-dev-server: `npm install webpack-dev-server --save-dev`. For at det skal være lettere å starte serveren kan det nok en gang være lurt å definere et npm script som kjører kommandoen: `webpack-dev-server --config webpack.config.js`. Hvis vi kjører dette scriptet slik prosjektet vårt er definert nå vil vi serve og se mappestrukturen til prosjektet vårt.
 Dette skyldes at dev-serveren trenger litt hjelp til å finne ut av hvor den skal laste bundelen vår fra og hvor den statiske html-filen vår skal serves fra.
 `publicPath` definerer hvor bundelen ligger og `contentBase` definerer hvor vi skal hente statisk content fra.
+Eksempel på devserver oppsett:
+```
+    devServer: {
+        publicPath: '/',
+        contentBase: './src'
+    }
+```
 
 #### Oppgave
 Sett opp dev-serveren slik at den får med seg endringer både i javascript og htmlen vår.
