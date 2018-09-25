@@ -197,9 +197,11 @@ module.exports = {
 Vi kan se at biblioteket lodash tar veldig mye av den totale bundle størrelsen. Om vi går inn i `src/utils.js` og endrer importen av lodash til å kunne ta inn string delen av biblioteket(`import _ from 'lodash/string';`), kan vi se med webpack-bundle-analyzer at lodash nå tar opp langt mindre plass.
 
 
-## React + hot reloading
-Ettersom react faggruppen er her må vi selvsagt 
-Trekk inn babel for react. Få en react component til å vises på skjermen. Få satt opp hot reloading for reactappen.
+## React
+Ettersom react faggruppen er her må vi selvsagt leke litt med React. Ettersom vi allerede har et babel oppsett gående er det litt mindre som trengs å gjøre enn vanlig. Vi trenger selvsagt React: `npm install --save react react-dom`. Og vi må ha litt mer hjelp til Babel: `npm install --save-dev @babel/preset-react`. Denne pakken lar oss blant annet transformere jsx. 
+
+#### Oppgave
+Lag en React component og rendrer denne i nettsiden din. Husk å koble React på et element i DOMen din.
 
 ## Code splitting
 Kodesplitting vil si å dele opp koden i flere bundles. Dette vil da gi deg mulighet til å laste bundler etter behov eller i parallell. Ved å gjøre dette kan man optimalisere lastetiden til applikasjonen ved å prioritere hvilken bundle/kode som skal lastes når og at man henter mindre bundler. Kodesplitting kan gjøres på forskjellige måter i webpack: 
@@ -240,6 +242,7 @@ module.exports = {
 ```
 
 ## Er du ferdig?
+* Sett opp hot reloading for react componenten din. Her burde man introdusere en ny komponent med state og se at state forblir inntakt på tvers av reloads. 
 * Les om webpack konfigurasjonen som nå kommer ut av boksen i webpack 4: https://webpack.js.org/configuration/
 * Utforsk mer av webpack: https://webpack.js.org/
 * Ta en titt på Parcel og deres Get started guide: https://parceljs.org
