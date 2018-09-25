@@ -218,10 +218,10 @@ Kodesplitting ved et nytt entry point er den enkleste måten å dele opp koden, 
 
 #### Forhindre duplisering av kode:
 Dersom man har fler entry point som beskrevet over er det fler muligheter for å forhindre duplisert kode:
-* `SplitChunksPlugin`: Legge felles avhengigheter i en egen chunk.
-* `Mini-css-extract-plugin`: Splitte ut css fra applikasjonen.
-* `Bundle-loader`: Splitte kode og lazy laste budlene som kommer fra kodesplittingen.
-* `Promise-loader`: Lignende Bundle-loader men bruker promises.
+* `SplitChunksPlugin`: Legge felles avhengigheter i en egen chunk. Les mer: https://webpack.js.org/plugins/split-chunks-plugin/
+* `Mini-css-extract-plugin`: Splitte ut css fra applikasjonen. Les mer: https://webpack.js.org/plugins/mini-css-extract-plugin/
+* `Bundle-loader`: Splitte kode og lazy laste budlene som kommer fra kodesplittingen. Les mer: https://webpack.js.org/loaders/bundle-loader/
+* `Promise-loader`: Lignende Bundle-loader men bruker promises. Les mer: https://github.com/gaearon/promise-loader
 
 
 #### Oppgave:
